@@ -2314,7 +2314,6 @@ class pbrtv4CloudVolume(PBRTV4TreeNode):
     bl_label = 'cloud'
     bl_icon = 'VOLUME_DATA'
     
-    Scale : bpy.props.FloatProperty(default=1.00)
     G : bpy.props.FloatProperty(default=0.00)
     
     Density : bpy.props.FloatProperty(default=1.00)
@@ -2325,11 +2324,6 @@ class pbrtv4CloudVolume(PBRTV4TreeNode):
     P1 : bpy.props.FloatVectorProperty(name="p1", description="color", default=(1.0, 1.0, 1.0), min=0, max=1, size=3)
     #Reflectance : bpy.props.FloatVectorProperty(name="reflectance", description="color",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
-    MediumPreset: bpy.props.EnumProperty(name="MediumPreset",
-                                              description="",
-                                              items=presets.MediumPreset+[("Custom", "Custom", "Custom")],
-                                              default='Custom')
-    
     def init(self, context):
         self.outputs.new('NodeSocketShader', "Medium")
         SigmaS_node = self.inputs.new('NodeSocketColor', "Sigma S")
@@ -2338,8 +2332,6 @@ class pbrtv4CloudVolume(PBRTV4TreeNode):
         SigmaA_node.default_value = [0.8, 0.8, 0.8, 1.0]
         
     def draw_buttons(self, context, layout):
-        layout.prop(self, "MediumPreset",text = 'Medium Preset')
-        layout.prop(self, "Scale",text = 'Scale')
         layout.prop(self, "G",text = 'g')
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
         #layout.prop(self, "Reflectance",text = 'Color')
@@ -2365,28 +2357,24 @@ class pbrtv4CloudVolume(PBRTV4TreeNode):
         res+='  '+'"float wispiness" [{}]\n'.format(self.Wispiness)
         res+='  '+'"float frequency" [{}]\n'.format(self.Frequency)
         #cloud data
-        res+='  '+'"float scale" [{}]\n'.format(self.Scale)
         res+='  '+'"float g" [{}]\n'.format(self.G)
-        if self.MediumPreset != 'Custom':
-            res+='  "string preset" "{}"\n'.format(self.MediumPreset)
+        if not(sigma_s.is_linked):
+            c = sigma_s.default_value
+            res+='  "rgb sigma_s" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
         else:
-            if not(sigma_s.is_linked):
-                c = sigma_s.default_value
-                res+='  "rgb sigma_s" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-            else:
-                node_link = sigma_s.links[0]
-                curNode =  node_link.from_node
-                nd = curNode.Backprop(list, data)
-                res+='  "texture sigma_s" ["{}"]\n'.format(nd.pbrtv4NodeID)
-            #sigma_a        
-            if not(sigma_a.is_linked):
-                c = sigma_a.default_value
-                res+='  "rgb sigma_a" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-            else:
-                node_link = sigma_a.links[0]
-                curNode =  node_link.from_node
-                nd = curNode.Backprop(list, data)
-                res+='  '+'"texture sigma_a" ["{}"]\n'.format(nd.pbrtv4NodeID)
+            node_link = sigma_s.links[0]
+            curNode =  node_link.from_node
+            nd = curNode.Backprop(list, data)
+            res+='  "texture sigma_s" ["{}"]\n'.format(nd.pbrtv4NodeID)
+        #sigma_a        
+        if not(sigma_a.is_linked):
+            c = sigma_a.default_value
+            res+='  "rgb sigma_a" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
+        else:
+            node_link = sigma_a.links[0]
+            curNode =  node_link.from_node
+            nd = curNode.Backprop(list, data)
+            res+='  '+'"texture sigma_a" ["{}"]\n'.format(nd.pbrtv4NodeID)
         data.append(res)
         return self
 
