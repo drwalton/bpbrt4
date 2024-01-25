@@ -707,169 +707,6 @@ class pbrtv4SubsurfaceMaterial(PBRTV4TreeNode):
         data.append(res)
         return self
 
-class pbrtv4UberMaterial(PBRTV4TreeNode):
-    '''A custom node'''
-    bl_idname = 'pbrtv4Uber'
-    bl_label = 'uber'
-    bl_icon = 'MATERIAL'
-
-    def updateViewportColor(self,context):
-        mat = bpy.context.active_object.active_material
-        if mat is not None:
-            bpy.data.materials[mat.name].diffuse_color=self.Kd
-        
-    #uRoughness : bpy.props.FloatProperty(default=0.05, min=0.00001, max=1.0)
-    #vRoughness : bpy.props.FloatProperty(default=0.05, min=0.00001, max=1.0)
-    maxdepth : bpy.props.IntProperty(default=10, min=0, max=100)
-    nsamples : bpy.props.IntProperty(default=1, min=1, max=100)
-    
-    Thickness : bpy.props.FloatProperty(default=0.01, min=0.0000, max=1000.0)
-    RemapRoughness: bpy.props.BoolProperty(default=False)
-    SeparateRoughness: bpy.props.BoolProperty(default=False)
-    
-    TwoSided: bpy.props.BoolProperty(default=True)
-    #Reflectance : bpy.props.FloatVectorProperty(name="reflectance", description="color",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
-    Eta : bpy.props.FloatProperty(default=1.5, min=1.0, max=999.0)
-    
-    Scale : bpy.props.FloatProperty(default=1.0, min=0.0, max=10000000.0)
-    
-    def init(self, context):
-        self.outputs.new('NodeSocketShader', "BSDF")
-        
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Color Texture")
-        ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
-        #ReflectanceTexture_node.hide_value = True
-        TransmittanceTexture_node = self.inputs.new('NodeSocketColor', "Transmittance Texture")
-        TransmittanceTexture_node.default_value = [0.0, 0.0, 0.0, 1.0]
-        
-        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness Texture")
-        #RoughnessTexture_node.hide_value = True
-        
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
-        DisplacementTexture_node.hide_value = True
-        
-        NormalTexture_node = self.inputs.new('NodeSocketFloat', "Normal Texture")
-        NormalTexture_node.hide_value = True
-        
-        gTexture_node = self.inputs.new('NodeSocketFloat', "G")
-
-        AlbedoTexture_node = self.inputs.new('NodeSocketColor', "Albedo Texture")
-        AlbedoTexture_node.default_value = [0.0, 0.0, 0.0, 1.0]
-        
-    def draw_buttons(self, context, layout):
-        #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        #layout.prop(self, "Reflectance",text = 'Color')
-        #layout.prop(self, "uRoughness",text = 'uRoughness')
-        #layout.prop(self, "vRoughness",text = 'vRoughness')
-        layout.prop(self, "RemapRoughness",text = 'RemapRoughness')
-        layout.prop(self, "Thickness",text = 'thickness')
-        layout.prop(self, "Eta",text = 'IOR')
-        
-        layout.prop(self, "TwoSided",text = 'two sided')
-        layout.prop(self, "maxdepth",text = 'maxdepth')
-        layout.prop(self, "nsamples",text = 'nsamples')
-        layout.prop(self, "Scale", text = 'Scale')
-        
-    def draw_label(self):
-        return self.bl_label
-        
-    #return str to add blocks from connected nodes to current and data to write to file
-    def to_string(self, list, data):
-        color = self.inputs[0]
-        transmittance = self.inputs[1]
-        roughness = self.inputs[2]
-        disp = self.inputs[3]
-        norm = self.inputs[4]
-        
-        #g = self.inputs[4]
-        #albedo = self.inputs[5]
-        
-        name = self.pbrtv4NodeID
-        
-        res ='MakeNamedMaterial "{}"\n'.format(name)
-        res +='  "string type" [ "uber" ]\n'
-        #export color
-        if not(color.is_linked):
-            c = color.default_value
-            res+='  "rgb reflectance" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-        else:
-            node_link = color.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture reflectance" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        #transmittance
-        if not(transmittance.is_linked):
-            c = transmittance.default_value
-            res+='  "rgb transmittance" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-        else:
-            node_link = transmittance.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture transmittance" ["{}"]'.format(nd.pbrtv4NodeID)
-        #export albedo
-        if 'albedo' in locals():
-            if not(albedo.is_linked):
-                c = albedo.default_value
-                res+='  "rgb albedo" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-            else:
-                node_link = albedo.links[0]
-                curNode =  node_link.from_node
-                nd = curNode.Backprop(list, data)
-                res+='  "texture albedo" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        
-        #export g
-        if 'g' in locals():
-            if not(g.is_linked):
-                c = g.default_value
-                res+='  "float g" [ {} ]\n'.format(c)
-            else:
-                node_link = g.links[0]
-                curNode =  node_link.from_node
-                nd = curNode.Backprop(list, data)
-                res+='  "texture g" ["{}"]\n'.format(nd.pbrtv4NodeID)
-            
-        #export roughness
-        if not(roughness.is_linked):
-            c = roughness.default_value
-            res+='  "float uroughness" [ {} ]\n'.format(c)
-            res+='  "float vroughness" [ {} ]\n'.format(c)
-        else:
-            node_link = roughness.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture roughness" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        
-        #export bump
-        if (disp.is_linked):
-            node_link = disp.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture displacement" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        
-        #export norm
-        if 'norm' in locals():
-            if (norm.is_linked):
-                node_link = norm.links[0]
-                curNode =  node_link.from_node
-                res+='  "string normalmap" "{}"\n'.format(util.switchpath(util.realpath(curNode.image.filepath)))
-            
-        res+='  "float eta" [{}]\n'.format(self.Eta)
-        res+='  "float thickness" [{}]\n'.format(self.Thickness)
-        #two sided
-        #twosided='false'
-        #if self.TwoSided:
-        #    twosided='true'
-        #res+='  "bool twosided" {}\n'.format(twosided)
-        remap='false'
-        if self.RemapRoughness:
-            remap='true'
-        res+='  "bool remaproughness" {}\n'.format(remap)
-        
-        res+='  "integer maxdepth" [{}]\n'.format(self.maxdepth)
-        res+='  "integer nsamples" [{}]\n'.format(self.nsamples)
-        res+='  "float scale" [{}]'.format(self.Scale)
-        data.append(res)
-        return self
 
 class pbrtv4CoateddiffuseMaterial(PBRTV4TreeNode):
     '''A custom node'''
@@ -2489,7 +2326,6 @@ def register():
     bpy.types.Node.pbrtv4NodeID = bpy.props.StringProperty(name="NodeID", default = "NodeID")
     bpy.utils.register_class(pbrtv4Output)
     
-    bpy.utils.register_class(pbrtv4UberMaterial)
     bpy.utils.register_class(pbrtv4Displacement)
     
     bpy.utils.register_class(pbrtv4AreaEmitter)
@@ -2528,7 +2364,6 @@ def register():
 
 def unregister():
     bpy.utils.unregister_class(pbrtv4Output)
-    bpy.utils.unregister_class(pbrtv4UberMaterial)
     bpy.utils.unregister_class(pbrtv4Displacement)
     
     bpy.utils.unregister_class(pbrtv4AreaEmitter)
