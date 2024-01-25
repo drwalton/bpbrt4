@@ -68,11 +68,9 @@ node_categories = [
         NodeItem("pbrtv4Subsurface"),
         NodeItem("pbrtv4Mix"),
         NodeItem("pbrtv4Diffuse"),
-        NodeItem("pbrtv4Sheen"),
         NodeItem("pbrtv4Coateddiffuse"),
         NodeItem("pbrtv4Dielectric"),
         NodeItem("pbrtv4Hair"),
-        #NodeItem("pbrtv4Uber"),
         NodeItem("pbrtv4Conductor")
         ]),
     PBRTV4NodeCategory("PBRTV4_OUTPUT", "PBRTV4 Output", items=[
@@ -327,7 +325,6 @@ class pbrtv4DiffuseMaterial(PBRTV4TreeNode):
         #ReflectanceTexture_node.hide_value = True
         
         SigmaTexture_node = self.inputs.new('NodeSocketFloat', "Sigma Texture")
-        #SheenTexture_node = self.inputs.new('NodeSocketFloat', "Sheen")
         #SigmaTexture_node.hide_value = True
         
         DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
@@ -486,122 +483,7 @@ class pbrtv4HairMaterial(PBRTV4TreeNode):
         data.append(res)
         return self
         
-class pbrtv4SheenMaterial(PBRTV4TreeNode):
-    '''A custom node'''
-    bl_idname = 'pbrtv4Sheen'
-    bl_label = 'sheen'
-    bl_icon = 'MATERIAL'
-    
-    def updateViewportColor(self,context):
-        mat = bpy.context.active_object.active_material
-        if mat is not None:
-            bpy.data.materials[mat.name].diffuse_color=self.Kd
-    
-    #Sigma : bpy.props.FloatProperty(default=0.00, min=0.00001, max=1.0)
-    #Reflectance : bpy.props.FloatVectorProperty(name="reflectance", description="color",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
-    
-    def init(self, context):
-        self.outputs.new('NodeSocketShader', "BSDF")
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Color Texture")
-        ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
-        #ReflectanceTexture_node.hide_value = True
-        
-        SigmaTexture_node = self.inputs.new('NodeSocketFloat', "Sigma Texture")
-        #SigmaTexture_node.hide_value = True
-        SheenTexture_node = self.inputs.new('NodeSocketFloat', "Sheen")
-        SheenTexture_node.default_value = 1.5
-        
-        SheenTexture_node = self.inputs.new('NodeSocketColor', "Sheen Color Texture")
-        SheenTexture_node.default_value = [1.0, 1.0, 1.0, 1.0]
-        
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
-        DisplacementTexture_node.hide_value = True
-        
-        NormalTexture_node = self.inputs.new('NodeSocketFloat', "Normal Texture")
-        NormalTexture_node.hide_value = True
-        
-    def draw_buttons(self, context, layout):
-        pass
-        #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        #layout.prop(self, "Reflectance",text = 'Color')
-        #layout.prop(self, "Sigma",text = 'Sigma')
-        
-    def draw_label(self):
-        return self.bl_label
-    
-    #return str to add blocks from connected nodes to current and data to write to file
-    def to_string(self, list, data):
-        name = self.pbrtv4NodeID
-        
-        color = self.inputs[0]
-        sigma = self.inputs[1]
-        sheen = self.inputs[2]
-        sheentext = self.inputs[3]
-        disp = self.inputs[4]
-        norm = self.inputs[5]
-        
-        res ='MakeNamedMaterial "{}"\n'.format(name)
-        res +='  "string type" [ "diffuse" ]\n'
-        
-        if not(color.is_linked):
-            c = color.default_value
-            res+='  "rgb reflectance" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-        else:
-            node_link = color.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            #print ("######",nd.Pbrtv4TreeNodeName)
-            #print(type(curNode),"TYPEEEEEEEEEEEEEEEEEEEE")
-            if isinstance(curNode, pbrtv4NodeTexture2d):
-                res+='  "spectrum reflectance" [{}]\n'.format(nd.get_spectrum_str())
-            else:
-                res+='  "texture reflectance" ["{}"]\n'.format(nd.pbrtv4NodeID)
-                
-        #sheen color
-        if not(sheentext.is_linked):
-            c = sheentext.default_value
-            res+='  "rgb sheentext" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-        else:
-            node_link = sheentext.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture sheentext" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        #sigma float texture
-        # if not(sigma.is_linked):
-            # c = sigma.default_value
-            # res+='  "float sigma" [ {} ]\n'.format(c)
-        # else:
-            # node_link = sigma.links[0]
-            # curNode =  node_link.from_node
-            # nd = curNode.Backprop(list, data)
-            # #print ("######",nd.Pbrtv4TreeNodeName)
-            # #print(type(curNode),"TYPEEEEEEEEEEEEEEEEEEEE")
-            # res+='  "texture sigma" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        #sheen
-        if not(sheen.is_linked):
-            c = sheen.default_value
-            res+='  "float sheen" [ {} ]\n'.format(c)
-        else:
-            node_link = sheen.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture sheen" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        #export bump
-        if (disp.is_linked):
-            node_link = disp.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture displacement" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        #export norm
-        if (norm.is_linked):
-            node_link = norm.links[0]
-            curNode =  node_link.from_node
-            nrm = curNode.getFileName()
-            res+='  "string normalmap" "{}"\n'.format(nrm)
-            
-        data.append(res)
-        return self
-    #diffusetransmission
+#diffusetransmission
 class pbrtv4DiffTransMaterial(PBRTV4TreeNode):
     '''A custom node'''
     bl_idname = 'pbrtv4DiffTrans'
@@ -2619,7 +2501,6 @@ def register():
     bpy.utils.register_class(pbrtv4NodeMarble)
     
     
-    bpy.utils.register_class(pbrtv4SheenMaterial)
     bpy.utils.register_class(pbrtv4HomogeneousVolume)
     bpy.utils.register_class(pbrtv4CloudVolume)
     bpy.utils.register_class(pbrtv4UniformgridVolume)
@@ -2658,7 +2539,6 @@ def unregister():
     bpy.utils.unregister_class(pbrtv4NodeDMix)
     bpy.utils.unregister_class(pbrtv4NodeMarble)
     
-    bpy.utils.unregister_class(pbrtv4SheenMaterial)
     bpy.utils.unregister_class(pbrtv4HomogeneousVolume)
     bpy.utils.unregister_class(pbrtv4CloudVolume)
     bpy.utils.unregister_class(pbrtv4UniformgridVolume)
