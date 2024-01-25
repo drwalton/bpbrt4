@@ -10,6 +10,31 @@ from nodeitems_utils import (
 )
 from ..utils import util, presets
 
+def write_spectrum_input(res, input, pbrt_name, data):
+    if not(input.is_linked):
+        c = input.default_value
+        res+='  "rgb {}" [ {} {} {} ]\n'.format(pbrt_name, c[0], c[1], c[2])
+    else:
+        node_link = input.links[0]
+        curNode = node_link.from_node
+        nd = curNode.Backprop(list, data)
+        if isinstance(curNode, pbrtv4NodeTexture2d):
+            res+='  "spectrum {} " [{}]\n'.format(pbrt_name, nd.get_spectrum_str())
+        else:
+            res+='  "texture {} " ["{}"]\n'.format(pbrt_name, nd.pbrtv4NodeID)
+    return res
+
+def write_float_input(res, input, pbrt_name, data):
+    if not(input.is_linked):
+        c = input.default_value
+        res+='  "float {}" [ {} ]\n'.format(pbrt_name, c)
+    else:
+        node_link = input.links[0]
+        curNode =  node_link.from_node
+        nd = curNode.Backprop(list, data)
+        res +='  "texture {}" ["{}"]\n'.format(pbrt_name, nd.pbrtv4NodeID)
+    return res
+
 class PBRTV4NodeTree(bpy.types.NodeTree):
     """ This operator is only visible when pbrt4 is the selected render engine"""
     bl_idname = 'PBRTV4NodeTree'
@@ -46,8 +71,9 @@ node_categories = [
         NodeItem("pbrtv4Sheen"),
         NodeItem("pbrtv4Coateddiffuse"),
         NodeItem("pbrtv4Dielectric"),
+        NodeItem("pbrtv4Hair"),
         #NodeItem("pbrtv4Uber"),
-        #NodeItem("pbrtv4Plastic"),
+        NodeItem("pbrtv4Plastic"),
         NodeItem("pbrtv4Conductor")
         ]),
     PBRTV4NodeCategory("PBRTV4_OUTPUT", "PBRTV4 Output", items=[
@@ -370,6 +396,96 @@ class pbrtv4DiffuseMaterial(PBRTV4TreeNode):
                 res+='  "string normalmap" "{}"\n'.format(nrm)
         data.append(res)
         return self
+
+class pbrtv4HairMaterial(PBRTV4TreeNode):
+    '''A custom node'''
+    bl_idname = 'pbrtv4Hair'
+    bl_label = 'hair'
+    bl_icon = 'MATERIAL'
+    
+    def updateViewportColor(self,context):
+        mat = bpy.context.active_object.active_material
+        if mat is not None:
+            bpy.data.materials[mat.name].diffuse_color=self.Kd
+    
+    #Sigma : bpy.props.FloatProperty(default=0.00, min=0.00001, max=1.0)
+    #Reflectance : bpy.props.FloatVectorProperty(name="reflectance", description="color",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
+    def update_mode(self, context):
+        pass
+
+    ModeType: bpy.props.EnumProperty(name="ModeType",
+        description="Mode",
+        items=[('absorption', "absorption", "spectrum texture"),
+                ('reflectance', "reflectance", "float texture"),
+                ('melanin', "melanin", "float texture")],
+        default='melanin', update=update_mode)
+    
+
+    def init(self, context):
+        self.outputs.new('NodeSocketShader', "BSDF")
+        AbsorptionTexture_node = self.inputs.new('NodeSocketColor', "Absorption Texture")
+        AbsorptionTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance Texture")
+        ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
+        
+        EumelaninTexture_node = self.inputs.new('NodeSocketFloat', "Eumelanin Texture")
+        EumelaninTexture_node.default_value = 1.3
+        PheomelaninTexture_node = self.inputs.new('NodeSocketFloat', "Pheomelanin Texture")
+        PheomelaninTexture_node.default_value = 0.0
+
+        Eta_node = self.inputs.new('NodeSocketFloat', "Eta (IoR) Texture")
+        Eta_node.default_value = 1.55
+
+        RoughnessM_node = self.inputs.new('NodeSocketFloat', "Roughness (Longitudinal) Texture")
+        RoughnessM_node.default_value = 0.3
+        RoughnessN_node = self.inputs.new('NodeSocketFloat', "Roughness (Azimuthal) Texture")
+        RoughnessN_node.default_value = 0.3
+        
+        ScaleAngle_node = self.inputs.new('NodeSocketFloat', "Scale Angle (degrees) Texture")
+        ScaleAngle_node.default_value = 2
+        
+    def draw_buttons(self, context, layout):
+        layout.prop(self, "ModeType", text = 'Mode')
+        pass
+        #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
+        #layout.prop(self, "Reflectance",text = 'Color')
+        #layout.prop(self, "Sigma",text = 'Sigma')
+        
+    def draw_label(self):
+        return self.bl_label
+    
+    #return str to add blocks from connected nodes to current and data to write to file
+    def to_string(self, list, data):
+        name = self.pbrtv4NodeID
+
+        absorption = self.inputs[0]
+        reflectance = self.inputs[1]
+        eumelanin = self.inputs[2]
+        pheomelanin = self.inputs[3]
+        eta = self.inputs[4]
+        roughness_m = self.inputs[5]
+        roughness_n = self.inputs[6]
+        scale_angle = self.inputs[7]
+        
+        res ='MakeNamedMaterial "{}"\n'.format(name)
+        res +='  "string type" [ "hair" ]\n'
+
+
+        if self.ModeType == "absorption":
+            res = write_spectrum_input(res, absorption, "sigma_a", data)
+        elif self.ModeType == "reflectance":
+            res = write_spectrum_input(res, reflectance, "reflectance", data)
+        else:
+            res = write_float_input(res, eumelanin, "eumelanin", data)
+            res = write_float_input(res, pheomelanin, "pheomelanin", data)
+
+        res = write_float_input(res, eta, "eta", data)
+        res = write_float_input(res, roughness_m, "beta_m", data)
+        res = write_float_input(res, roughness_n, "beta_n", data)
+        res = write_float_input(res, scale_angle, "alpha", data)
+        
+        data.append(res)
+        return self
         
 class pbrtv4SheenMaterial(PBRTV4TreeNode):
     '''A custom node'''
@@ -556,7 +672,7 @@ class pbrtv4DiffTransMaterial(PBRTV4TreeNode):
             nd = curNode.Backprop(list, data)
             res+='  "texture displacement" ["{}"]\n'.format(nd.pbrtv4NodeID)
             
-        res+='  "float scale" [{}]'.format(self.Scale)
+        res+='  "float scale" [{}]\n'.format(self.Scale)
         data.append(res)
         return self
 
@@ -2605,6 +2721,7 @@ def register():
 
     bpy.utils.register_class(pbrtv4NoneMaterial)
     bpy.utils.register_class(pbrtv4MeasuredMaterial)
+    bpy.utils.register_class(pbrtv4HairMaterial)
     
     bpy.utils.register_class(pbrtv4NodeConstant)
     bpy.utils.register_class(pbrtv4NodeCheckerboard)
