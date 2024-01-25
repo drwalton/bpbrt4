@@ -73,7 +73,6 @@ node_categories = [
         NodeItem("pbrtv4Dielectric"),
         NodeItem("pbrtv4Hair"),
         #NodeItem("pbrtv4Uber"),
-        NodeItem("pbrtv4Plastic"),
         NodeItem("pbrtv4Conductor")
         ]),
     PBRTV4NodeCategory("PBRTV4_OUTPUT", "PBRTV4 Output", items=[
@@ -1183,97 +1182,6 @@ class pbrtv4CoateddiffuseMaterial(PBRTV4TreeNode):
         data.append(res)
         return self
         
-class pbrtv4PlasticMaterial(PBRTV4TreeNode):
-    '''A custom node'''
-    bl_idname = 'pbrtv4Plastic'
-    bl_label = 'plastic'
-    bl_icon = 'MATERIAL'
-
-    Eta : bpy.props.FloatProperty(default=1.5, min=1.0, max=999.0)
-    Eta_Spectrum : bpy.props.FloatVectorProperty(name="Tint", description="tint color",default=(200.0, 1.0, 900.0, 1.0), min=0, max=1000, subtype='COLOR', size=4)
-    RemapRoughness: bpy.props.BoolProperty(default=False)
-    
-    EtaPreset: bpy.props.EnumProperty(name="EtaPreset",
-                                              description="",
-                                              items=presets.GlassPreset+[("custom", "Value", "Custom"),
-                                                                         ("color", "color", "Custom")],
-                                              default='custom')
-    
-    def init(self, context):
-        self.outputs.new('NodeSocketShader', "BSDF")
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Color Texture")
-        ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
-        
-        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness Texture")
-        RoughnessTexture_node.default_value = 0.001
-        
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
-        DisplacementTexture_node.hide_value = True
-        
-    def draw_buttons(self, context, layout):
-        #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "EtaPreset",text = 'Eta preset')
-        if self.EtaPreset == 'custom':
-            layout.prop(self, "Eta",text = 'Eta')
-        elif self.EtaPreset == 'color':
-            layout.prop(self, "Eta_Spectrum",text = 'Eta_Spectrum')
-        
-        layout.prop(self, "RemapRoughness",text = 'RemapRoughness')
-        
-    def draw_label(self):
-        return self.bl_label
-        
-    #return str to add blocks from connected nodes to current and data to write to file
-    def to_string(self, list, data):
-        color = self.inputs[0]
-        roughness = self.inputs[1]
-        disp = self.inputs[2]
-        
-        name = self.pbrtv4NodeID
-        res ='MakeNamedMaterial "{}"\n'.format(name)
-        res +='  "string type" [ "plastic" ]\n'
-        
-        if not(color.is_linked):
-            c = color.default_value
-            res+='  "rgb reflectance" [ {} {} {} ]\n'.format(c[0], c[1], c[2])
-        else:
-            node_link = color.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture reflectance" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        
-        #export roughness
-        if not(roughness.is_linked):
-            c = roughness.default_value
-            res+='  "float roughness" [ {} ]\n'.format(c)
-        else:
-            node_link = roughness.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture roughness" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        
-        #export bump
-        if (disp.is_linked):
-            node_link = disp.links[0]
-            curNode =  node_link.from_node
-            nd = curNode.Backprop(list, data)
-            res+='  "texture displacement" ["{}"]\n'.format(nd.pbrtv4NodeID)
-        remap='false'
-        if self.RemapRoughness:
-            remap='true'
-        res+='  "bool remaproughness" {}\n'.format(remap)
-        
-        #eta
-        if self.EtaPreset == 'color':
-            res+='  "spectrum eta" [ {} {} {} {} ]\n'.format(self.Eta_Spectrum[0], self.Eta_Spectrum[1], self.Eta_Spectrum[2], self.Eta_Spectrum[3])
-            #res+='  "rgb eta" [ {} {} {} ]\n'.format(self.Eta_Spectrum[0], self.Eta_Spectrum[1], self.Eta_Spectrum[2])
-        elif self.EtaPreset != 'custom':
-            res+='  "spectrum eta" [ "{}" ]\n'.format(self.EtaPreset)
-        else:
-            res+='  "float eta" [{}]\n'.format(self.Eta)
-            
-        data.append(res)
-        return self
         
 class pbrtv4DielectricMaterial(PBRTV4TreeNode):
     '''A custom node'''
@@ -2699,7 +2607,6 @@ def register():
     bpy.types.Node.pbrtv4NodeID = bpy.props.StringProperty(name="NodeID", default = "NodeID")
     bpy.utils.register_class(pbrtv4Output)
     
-    bpy.utils.register_class(pbrtv4PlasticMaterial)
     bpy.utils.register_class(pbrtv4UberMaterial)
     bpy.utils.register_class(pbrtv4Displacement)
     
@@ -2740,7 +2647,6 @@ def register():
 
 def unregister():
     bpy.utils.unregister_class(pbrtv4Output)
-    bpy.utils.unregister_class(pbrtv4PlasticMaterial)
     bpy.utils.unregister_class(pbrtv4UberMaterial)
     bpy.utils.unregister_class(pbrtv4Displacement)
     
