@@ -747,8 +747,10 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         
     def LoadResult(self, file, sx, sy):
         result = self.begin_result(0, 0, sx, sy)
-        layer = result.layers[0]
-        layer.load_from_file(file)
+        pixel_count = sx * sy
+        bpy.ops.image.open(filepath=file)
+        filename = os.path.basename(file)
+        result.layers[0].passes["Combined"].rect = np.array(bpy.data.images[filename].pixels).reshape(pixel_count, 4)
         self.end_result(result)
     
     def RunRender(self, props, depsgraph, sceneFile):
