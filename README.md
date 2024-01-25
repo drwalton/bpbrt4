@@ -1,7 +1,9 @@
 # bpbrt4 for Windows (Early Release)
 ## pbrt-v4 render engine/exporter add-on for Blender
-Based on [original repository by NicNel](https://github.com/NicNel/bpbrt4)
-This in turn was based on mesh_ply.py from Blender Mitsuba Add-On
+Based on [original repository by NicNel](https://github.com/NicNel/bpbrt4).
+
+This in turn was based on mesh_ply.py from Blender Mitsuba Add-On.
+
 This version is updated for current master branch of pbrt-v4, tested using blender 3.6.
 
 ![Header Render](images/teaser1.png)
