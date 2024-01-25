@@ -25,7 +25,15 @@ All materials should use PBRTV4 nodes to work correctly in the PBRTV4 renderer.
 
 Ensure you use the `PBRTV4 Output` node, and not a standard Blender shader (like "Principled BSDF" for example).
 
+Inputs such as images should also make use of the PBRT image texture node `PBRTV4 Textures->Image`.
+
+Textures used as normal maps must have the is Normal property set.
+
 Example minimal setup using the diffuse shader:
 
 ![Example Minimal Nodes](images/examplematerial.png)
+
+#### Limitations
+
+Currently materials do not appear correctly in the `Rendered` and `Material Preview` view modes. As a result I recommend the use of `Solid` or `Wireframe` when composing scenes.
 

@@ -1552,7 +1552,7 @@ class pbrtv4NodeImageTexture2d(PBRTV4TreeNode):
             name = self.scaleNormalMap(self.ScaleValue)
             return util.switchpath(name)
         else:
-            util.switchpath(util.realpath(curNode.image.filepath))
+            util.switchpath(util.realpath(self.image.filepath))
     
     def to_string(self, list, data):
         name = self.pbrtv4NodeID
