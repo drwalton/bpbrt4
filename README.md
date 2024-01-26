@@ -9,6 +9,14 @@ This version is updated for current master branch of pbrt-v4, tested using blend
 ![Header Render](images/teaser1.png)
 ### How to use
 
+#### Installation
+
+Blender add-ons are installed as `zip` archives. I would recommend either using the "Download as ZIP" option on Github, or cloning the repository and then compressing the result to a zip archive.
+
+From Blender, navigate to "Edit" -> "Preferences" -> "Add-ons" tab, "Install..." button. Select the zip archive. 
+
+The add-on should appear as "Render: PBRTV4_Exporter" below. Make sure to tick the box to enable the add-on.
+
 #### Rendering
 
 - Set your Render Engine to PBRTV4 Renderer
