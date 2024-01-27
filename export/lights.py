@@ -22,7 +22,8 @@ def export_distant_light(light):
     dir_v = rot_output@ -vec
     dir_v.normalize()
     toPos = fromPos+dir_v
-    scale = light.data.pbrtv4_light_power
+    scale = light.data.pbrtv4_light_scale
+    illuminance = light.data.pbrtv4_light_illuminance
     res = "AttributeBegin\n"
     res += "    "+'LightSource "distant"\n'
     if light.data.pbrtv4_light_preset == 'color':
@@ -33,6 +34,7 @@ def export_distant_light(light):
     else:
         res += "    "+"    "+'"spectrum L" ["{}"]\n'.format(light.data.pbrtv4_light_preset)
     res += "    "+"    "+'"float scale" [{}]\n'.format(scale)
+    res += "    "+"    "+'"float illuminance" [{}]\n'.format(illuminance)
     res += "    "+"    "+'"point3 from" [{} {} {}]\n'.format(fromPos.x, fromPos.y, fromPos.z)
     res += "    "+"    "+'"point3 to" [{} {} {}]\n'.format(toPos.x, toPos.y, toPos.z)
     res += "AttributeEnd\n"
@@ -40,7 +42,8 @@ def export_distant_light(light):
 #"I" "scale" "power" "from"
 def export_point_light(light):
     fromPos = light.location
-    scale = light.data.pbrtv4_light_power
+    scale = light.data.pbrtv4_light_scale
+    power = light.data.pbrtv4_light_power
     print("Export point light")
     res = "AttributeBegin\n"
     res += "    "+'LightSource "point"\n'
@@ -52,11 +55,13 @@ def export_point_light(light):
     else:
         res += "    "+"    "+'"spectrum I" ["{}"]\n'.format(light.data.pbrtv4_light_preset)
     res += "    "+"    "+'"float scale" [{}]\n'.format(scale)
+    res += "    "+"    "+'"float power" [{}]\n'.format(power)
     res += "    "+"    "+'"point3 from" [{} {} {}]\n'.format(fromPos.x, fromPos.y, fromPos.z)
     res += "AttributeEnd\n"
     return res
 def export_spot_light(light):
-    scale = light.data.pbrtv4_light_power
+    scale = light.data.pbrtv4_light_scale
+    power = light.data.pbrtv4_light_power
     size = math.degrees(light.data.spot_size)/2.0
     blend = size*light.data.spot_blend
     cameramatrix = light.matrix_world.copy()
@@ -82,6 +87,7 @@ def export_spot_light(light):
     else:
         res += "    "+"    "+'"spectrum I" ["{}"]\n'.format(light.data.pbrtv4_light_preset)
     res += "    "+"    "+'"float scale" [{}]\n'.format(scale)
+    res += "    "+"    "+'"float power" [{}]\n'.format(power)
     res += "    "+"    "+'"point3 from" [{} {} {}]\n'.format(from_point.x, from_point.y, from_point.z)
     res += "    "+"    "+'"point3 to" [{} {} {}]\n'.format(at_point.x, at_point.y, at_point.z)
     res += "    "+"    "+'"float coneangle" [{}]\n'.format(size)

@@ -6,6 +6,14 @@ class PBRTV4LightSettings(bpy.types.PropertyGroup):
                                                description="Power",
                                                min=0.0,
                                                default=1.0)
+    bpy.types.Light.pbrtv4_light_scale = bpy.props.FloatProperty(name="pbrtv4_light_scale",
+                                               description="Scale",
+                                               min=0.0,
+                                               default=1.0)
+    bpy.types.Light.pbrtv4_light_illuminance = bpy.props.FloatProperty(name="pbrtv4_light_illuminance",
+                                               description="Illuminance",
+                                               min=0.0,
+                                               default=1.0)
     bpy.types.Light.pbrtv4_light_temperature = bpy.props.FloatProperty(name="pbrtv4_light_temperature",
                                                description="Blackbody temperature",
                                                min=0.0,

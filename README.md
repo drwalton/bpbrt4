@@ -45,3 +45,5 @@ Example minimal setup using the diffuse shader:
 
 Currently materials do not appear correctly in the `Rendered` and `Material Preview` view modes. As a result I recommend the use of `Solid` or `Wireframe` when composing scenes.
 
+Currently only the `point`, `distant` and `spotlight` light types are supported in Blender. These correspond to the blender light types `Point`, `Sun` and `Spot` respectively.
+

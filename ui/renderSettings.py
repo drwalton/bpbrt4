@@ -392,7 +392,9 @@ class PBRTV4_LIGHT_PT_common(bpy.types.Panel):
         light = context.light
         
         if light:
-            layout.prop(light, "pbrtv4_light_power", text="pbrtv4_light_power")
+            layout.prop(light, "pbrtv4_light_scale", text="Scale")
+            layout.prop(light, "pbrtv4_light_power", text="Power")
+            layout.prop(light, "pbrtv4_light_illuminance", text="Illuminance (Sun Only)")
             col = layout.column(align=True)
             col.prop(light, "pbrtv4_light_preset", text="Preset")
             if light.pbrtv4_light_preset == 'color':
