@@ -157,7 +157,7 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
             mr = round(m, 5)
             print("--- Export takes %s min ---" % mr)
         self.exportSettings(depsgraph,props)
-        print("RENDER STARTTTTTTT")
+        print("******BEGIN RENDER******")
         filename = util.switchpath(props['pbrt_project_dir'])+'/'+'scene.pbrt'
         
         if not props['pbrt_export_scene_only']:

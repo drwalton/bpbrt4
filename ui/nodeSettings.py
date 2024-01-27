@@ -487,7 +487,7 @@ class pbrtv4HairMaterial(PBRTV4TreeNode):
 class pbrtv4DiffTransMaterial(PBRTV4TreeNode):
     '''A custom node'''
     bl_idname = 'pbrtv4DiffTrans'
-    bl_label = 'transmission'
+    bl_label = 'diffusetransmission'
     bl_icon = 'MATERIAL'
 
     Scale : bpy.props.FloatProperty(default=1.0, min=0.0, max=10000000.0)
