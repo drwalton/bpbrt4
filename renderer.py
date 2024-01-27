@@ -598,7 +598,8 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         export_result =""
         
         export_result +='Sampler "{}"\n'.format(props['pbrt_sampler'])
-        export_result +='    "integer pixelsamples" [ {} ]\n'.format(props['pbrt_samples'])
+        if props['pbrt_sampler'] != "stratified":
+            export_result +='    "integer pixelsamples" [ {} ]\n'.format(props['pbrt_samples'])
         return export_result
         
     def export_Accelerator(self, props):
@@ -865,6 +866,7 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
             outImagePath = props['pbrt_rendered_file']
             #result = self.get_result()
             #result.layers[0].load_from_file(outImagePath)
+            print("Rendered PBRT output path", outImagePath)
             self.LoadResult(outImagePath, props["scale_x"], props["scale_y"])
          
     def DenoiseExternal(self, props, beauty, albedo, normal, result):
