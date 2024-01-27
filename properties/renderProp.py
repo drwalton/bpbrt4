@@ -130,6 +130,22 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
                                                description="pbrt pixel filter yradius",
                                                min=0,
                                                default=0.5)
+    pbrt_pfilter_gausssigma: bpy.props.FloatProperty(name="pbrt_pfilter_gausssigma",
+                                               description="pbrt pixel filter sigma (gaussian only)",
+                                               min=0,
+                                               default=0.5)
+    pbrt_pfilter_mitchell_b: bpy.props.FloatProperty(name="pbrt_pfilter_mitchell_b",
+                                               description="pbrt pixel filter B (mitchell only)",
+                                               min=0,
+                                               default=0.33333)
+    pbrt_pfilter_mitchell_c: bpy.props.FloatProperty(name="pbrt_pfilter_mitchell_c",
+                                               description="pbrt pixel filter C (mitchell only)",
+                                               min=0,
+                                               default=0.33333)
+    pbrt_pfilter_sinc_tau: bpy.props.FloatProperty(name="pbrt_pfilter_sinc_tau",
+                                               description="pbrt pixel filter tau (sinc only)",
+                                               min=0,
+                                               default=3.0)
     pbrt_export_scene_only: bpy.props.BoolProperty(name="pbrt_export_scene_only",
                                                     description="",
                                                     default=False)
@@ -322,11 +338,11 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
     
     #bloom
     pbrt_bloom_lvl: bpy.props.FloatProperty(name="pbrt_bloom_lvl",
-                                               description="pbrt pixel filter xradius",
+                                               description="pbrt bloom level",
                                                min=0,
                                                default=1.0)
     pbrt_bloom_scale: bpy.props.FloatProperty(name="pbrt_bloom_scale",
-                                               description="pbrt pixel filter xradius",
+                                               description="pbrt bloom scale",
                                                min=0,
                                                default=0.3)
     pbrt_bloom_width: bpy.props.IntProperty(

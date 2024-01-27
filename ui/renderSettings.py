@@ -89,6 +89,13 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
             col = layout.column(align=True)
             col.prop(asr_scene_props, "pbrt_pfilter_xradius", text="xradius")
             col.prop(asr_scene_props, "pbrt_pfilter_yradius", text="yradius")
+            if asr_scene_props.pbrt_pfilter_type == "gaussian":
+                col.prop(asr_scene_props, "pbrt_pfilter_gausssigma", text="Gaussian Sigma")
+            if asr_scene_props.pbrt_pfilter_type == "mitchell":
+                col.prop(asr_scene_props, "pbrt_pfilter_mitchell_b", text="Mitchell B")
+                col.prop(asr_scene_props, "pbrt_pfilter_mitchell_c", text="Mitchell C")
+            if asr_scene_props.pbrt_pfilter_type == "sinc":
+                col.prop(asr_scene_props, "pbrt_pfilter_sinc_tau", text="Sinc Tau")
             
         layout.separator()
         layout.prop(asr_scene_props, "pbrt_linked_as_instance", text="Export linked as instances")

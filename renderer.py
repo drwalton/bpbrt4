@@ -322,6 +322,10 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         props['pbrt_pfilter_type'] = bpy.context.scene.pbrtv4.pbrt_pfilter_type
         props['pbrt_pfilter_xradius'] = bpy.context.scene.pbrtv4.pbrt_pfilter_xradius
         props['pbrt_pfilter_yradius'] = bpy.context.scene.pbrtv4.pbrt_pfilter_yradius
+        props['pbrt_pfilter_gausssigma'] = bpy.context.scene.pbrtv4.pbrt_pfilter_gausssigma
+        props['pbrt_pfilter_mitchell_b'] = bpy.context.scene.pbrtv4.pbrt_pfilter_mitchell_b
+        props['pbrt_pfilter_mitchell_c'] = bpy.context.scene.pbrtv4.pbrt_pfilter_mitchell_c
+        props['pbrt_pfilter_sinc_tau'] = bpy.context.scene.pbrtv4.pbrt_pfilter_sinc_tau
         #------------------
         
         props['pbrt_compute_mode'] = bpy.context.scene.pbrtv4.pbrt_compute_mode
@@ -628,6 +632,13 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
             export_result +='PixelFilter "{}"\n'.format(pfilter)
             export_result +='    "float xradius" [ {} ]\n'.format(xr)
             export_result +='    "float yradius" [ {} ]\n'.format(yr)
+            if pfilter == "gaussian":
+                export_result +='    "float sigma" [ {} ]\n'.format(props["pbrt_pfilter_gausssigma"])
+            if pfilter == "mitchell":
+                export_result +='    "float B" [ {} ]\n'.format(props["pbrt_pfilter_mitchell_b"])
+                export_result +='    "float C" [ {} ]\n'.format(props["pbrt_pfilter_mitchell_c"])
+            if pfilter == "sinc":
+                export_result +='    "float tau" [ {} ]\n'.format(props["pbrt_pfilter_sinc_tau"])
         return export_result
     #Film "rgb"
     #"string filename" [ "villa-lights-on.exr" ]
