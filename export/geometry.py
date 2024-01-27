@@ -181,7 +181,7 @@ class GeometryExporter:
                 node.setId(mat.name, ID)
                 ID+=1
         
-        input = OutputNode.inputs.get("Bsdf") #shader input
+        input = OutputNode.inputs.get("BSDF") #shader input
         if not input == None and input.is_linked:
             node_link = input.links[0]
             curNode =  node_link.from_node
@@ -276,7 +276,7 @@ class GeometryExporter:
                 if hasattr(node, 'isPbrtv4TreeNode'):
                     node.setId(mat.name, ID)
                     ID+=1
-            input = OutputNode.inputs.get("Bsdf") #shader input
+            input = OutputNode.inputs.get("BSDF") #shader input
             if not input == None and input.is_linked:
                 node_link = input.links[0]
                 curNode =  node_link.from_node
