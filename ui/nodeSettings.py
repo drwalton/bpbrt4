@@ -320,17 +320,17 @@ class pbrtv4DiffuseMaterial(PBRTV4TreeNode):
     
     def init(self, context):
         self.outputs.new('NodeSocketShader', "BSDF")
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Color Texture")
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance")
         ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         #ReflectanceTexture_node.hide_value = True
         
-        SigmaTexture_node = self.inputs.new('NodeSocketFloat', "Sigma Texture")
+        SigmaTexture_node = self.inputs.new('NodeSocketFloat', "Sigma")
         #SigmaTexture_node.hide_value = True
         
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
+        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement")
         DisplacementTexture_node.hide_value = True
         
-        NormalTexture_node = self.inputs.new('NodeSocketFloat', "Normal Texture")
+        NormalTexture_node = self.inputs.new('NodeSocketFloat', "Normal")
         NormalTexture_node.hide_value = True
         
     def draw_buttons(self, context, layout):
@@ -419,25 +419,25 @@ class pbrtv4HairMaterial(PBRTV4TreeNode):
 
     def init(self, context):
         self.outputs.new('NodeSocketShader', "BSDF")
-        AbsorptionTexture_node = self.inputs.new('NodeSocketColor', "Absorption Texture")
+        AbsorptionTexture_node = self.inputs.new('NodeSocketColor', "Absorption")
         AbsorptionTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance Texture")
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance")
         ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         
-        EumelaninTexture_node = self.inputs.new('NodeSocketFloat', "Eumelanin Texture")
+        EumelaninTexture_node = self.inputs.new('NodeSocketFloat', "Eumelanin")
         EumelaninTexture_node.default_value = 1.3
-        PheomelaninTexture_node = self.inputs.new('NodeSocketFloat', "Pheomelanin Texture")
+        PheomelaninTexture_node = self.inputs.new('NodeSocketFloat', "Pheomelanin")
         PheomelaninTexture_node.default_value = 0.0
 
-        Eta_node = self.inputs.new('NodeSocketFloat', "Eta (IoR) Texture")
+        Eta_node = self.inputs.new('NodeSocketFloat', "Eta (IoR)")
         Eta_node.default_value = 1.55
 
-        RoughnessM_node = self.inputs.new('NodeSocketFloat', "Roughness (Longitudinal) Texture")
+        RoughnessM_node = self.inputs.new('NodeSocketFloat', "Roughness (Longitudinal)")
         RoughnessM_node.default_value = 0.3
-        RoughnessN_node = self.inputs.new('NodeSocketFloat', "Roughness (Azimuthal) Texture")
+        RoughnessN_node = self.inputs.new('NodeSocketFloat', "Roughness (Azimuthal)")
         RoughnessN_node.default_value = 0.3
         
-        ScaleAngle_node = self.inputs.new('NodeSocketFloat', "Scale Angle (degrees) Texture")
+        ScaleAngle_node = self.inputs.new('NodeSocketFloat', "Scale Angle (degrees)")
         ScaleAngle_node.default_value = 2
         
     def draw_buttons(self, context, layout):
@@ -496,16 +496,16 @@ class pbrtv4DiffTransMaterial(PBRTV4TreeNode):
     def init(self, context):
         self.outputs.new('NodeSocketShader', "BSDF")
         
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Color Texture")
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance")
         ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         
-        TransmittanceTexture_node = self.inputs.new('NodeSocketColor', "Transmittance Texture")
+        TransmittanceTexture_node = self.inputs.new('NodeSocketColor', "Transmittance")
         TransmittanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         
-        SigmaTexture_node = self.inputs.new('NodeSocketFloat', "Sigma Texture")
+        SigmaTexture_node = self.inputs.new('NodeSocketFloat', "Sigma")
         #SigmaTexture_node.hide_value = True
         
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
+        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement")
         DisplacementTexture_node.hide_value = True
         
     def draw_buttons(self, context, layout):
@@ -610,15 +610,15 @@ class pbrtv4SubsurfaceMaterial(PBRTV4TreeNode):
         SigmaA_node.default_value = [0.8, 0.8, 0.8, 1.0]
         SigmaA_node.hide = True
         
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Color Texture")
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance")
         ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         #ReflectanceTexture_node.hide_value = True
         
-        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness Texture")
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
+        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness")
+        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement")
         DisplacementTexture_node.hide_value = True
         gTexture_node = self.inputs.new('NodeSocketFloat', "G")
-        AlbedoTexture_node = self.inputs.new('NodeSocketColor', "Albedo Texture")
+        AlbedoTexture_node = self.inputs.new('NodeSocketColor', "Albedo")
         AlbedoTexture_node.default_value = [0.0, 0.0, 0.0, 1.0]
         
     def draw_buttons(self, context, layout):
@@ -749,30 +749,30 @@ class pbrtv4CoateddiffuseMaterial(PBRTV4TreeNode):
     def init(self, context):
         self.outputs.new('NodeSocketShader', "BSDF")
         
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "color")
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance")
         ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         #ReflectanceTexture_node.hide_value = True
         
-        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "roughness")
+        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness")
         RoughnessTexture_node.default_value = 0.05
         
-        URoughnessTexture_node = self.inputs.new('NodeSocketFloat', "uroughness")
+        URoughnessTexture_node = self.inputs.new('NodeSocketFloat', "URoughness")
         URoughnessTexture_node.default_value = 0.05
         URoughnessTexture_node.hide = True
         
-        VRoughnessTexture_node = self.inputs.new('NodeSocketFloat', "vroughness")
+        VRoughnessTexture_node = self.inputs.new('NodeSocketFloat', "VRoughness")
         VRoughnessTexture_node.default_value = 0.05
         VRoughnessTexture_node.hide = True
         
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "displacement")
+        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement")
         DisplacementTexture_node.hide_value = True
         
-        NormalTexture_node = self.inputs.new('NodeSocketFloat', "normal")
+        NormalTexture_node = self.inputs.new('NodeSocketFloat', "Normal")
         NormalTexture_node.hide_value = True
         
         gTexture_node = self.inputs.new('NodeSocketFloat', "G")
 
-        AlbedoTexture_node = self.inputs.new('NodeSocketColor', "albedo")
+        AlbedoTexture_node = self.inputs.new('NodeSocketColor', "Albedo")
         AlbedoTexture_node.default_value = [0.0, 0.0, 0.0, 1.0]
         
     def draw_buttons(self, context, layout):
@@ -795,12 +795,12 @@ class pbrtv4CoateddiffuseMaterial(PBRTV4TreeNode):
         
     #return str to add blocks from connected nodes to current and data to write to file
     def to_string(self, list, data):
-        color = self.inputs.get("color")
-        roughness = self.inputs.get("roughness")
-        uroughness = self.inputs.get("uroughness")
-        vroughness = self.inputs.get("vroughness")
-        disp = self.inputs.get("displacement")
-        norm = self.inputs.get("normal")
+        color = self.inputs.get("Color")
+        roughness = self.inputs.get("Roughness")
+        uroughness = self.inputs.get("URoughness")
+        vroughness = self.inputs.get("VRoughness")
+        disp = self.inputs.get("Displacement")
+        norm = self.inputs.get("Normal")
         
         #g = self.inputs[4]
         #albedo = self.inputs[5]
@@ -922,10 +922,10 @@ class pbrtv4DielectricMaterial(PBRTV4TreeNode):
     def init(self, context):
         self.outputs.new('NodeSocketShader', "BSDF")
         
-        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness Texture")
+        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness")
         RoughnessTexture_node.default_value = 0.001
         
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement Texture")
+        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement")
         DisplacementTexture_node.hide_value = True
         
         #EtaTexture_node = self.inputs.new('NodeSocketColor', "Eta spectr")
@@ -933,18 +933,18 @@ class pbrtv4DielectricMaterial(PBRTV4TreeNode):
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "isThin",text = 'Thin dielectric')
-        layout.prop(self, "EtaPreset",text = 'Eta preset')
+        layout.prop(self, "isThin",text = 'Thin Dielectric')
+        layout.prop(self, "EtaPreset",text = 'Eta Preset')
         if self.EtaPreset == 'custom':
             layout.prop(self, "Eta",text = 'Eta')
         elif self.EtaPreset == 'color':
-            layout.prop(self, "Eta_Spectrum",text = 'Eta_Spectrum')
+            layout.prop(self, "Eta_Spectrum",text = 'Eta Spectrum')
         
         if not self.isThin:
-            layout.prop(self, "RemapRoughness",text = 'RemapRoughness')
-            layout.prop(self, "UseTint",text = 'Use tint')
+            layout.prop(self, "RemapRoughness",text = 'Remap Roughness')
+            layout.prop(self, "UseTint",text = 'Use Tint')
             if self.UseTint:
-                layout.prop(self, "Tint",text = 'tint color')
+                layout.prop(self, "Tint",text = 'Tint Color')
         
         
     def draw_label(self):
@@ -1009,9 +1009,9 @@ class pbrtv4ConductorMaterial(PBRTV4TreeNode):
     bl_icon = 'MATERIAL'
     
     def updateAnisotropy(self,context):
-        roughness = self.inputs.get("roughness")
-        uroughness = self.inputs.get("uroughness")
-        vroughness = self.inputs.get("vroughness")
+        roughness = self.inputs.get("Roughness")
+        uroughness = self.inputs.get("URoughness")
+        vroughness = self.inputs.get("VRoughness")
         if self.Anisotropy:
             roughness.hide = True
             uroughness.hide = False
@@ -1036,21 +1036,21 @@ class pbrtv4ConductorMaterial(PBRTV4TreeNode):
     
     def init(self, context):
         self.outputs.new('NodeSocketShader', "BSDF")
-        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "color")
+        ReflectanceTexture_node = self.inputs.new('NodeSocketColor', "Reflectance")
         ReflectanceTexture_node.default_value = [0.8, 0.8, 0.8, 1.0]
         
-        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "roughness")
+        RoughnessTexture_node = self.inputs.new('NodeSocketFloat', "Roughness")
         RoughnessTexture_node.default_value = 0.05
         
-        URoughnessTexture_node = self.inputs.new('NodeSocketFloat', "uroughness")
+        URoughnessTexture_node = self.inputs.new('NodeSocketFloat', "URoughness")
         URoughnessTexture_node.default_value = 0.05
         URoughnessTexture_node.hide = True
         
-        VRoughnessTexture_node = self.inputs.new('NodeSocketFloat', "vroughness")
+        VRoughnessTexture_node = self.inputs.new('NodeSocketFloat', "VRoughness")
         VRoughnessTexture_node.default_value = 0.05
         VRoughnessTexture_node.hide = True
         
-        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "displacement")
+        DisplacementTexture_node = self.inputs.new('NodeSocketFloat', "Displacement")
         DisplacementTexture_node.hide_value = True
              
     def draw_buttons(self, context, layout):
@@ -1066,11 +1066,11 @@ class pbrtv4ConductorMaterial(PBRTV4TreeNode):
         
     #return str to add blocks from connected nodes to current and data to write to file
     def to_string(self, list, data):
-        color = self.inputs.get("color")
-        roughness = self.inputs.get("roughness")
-        uroughness = self.inputs.get("uroughness")
-        vroughness = self.inputs.get("vroughness")
-        disp = self.inputs.get("displacement")
+        color = self.inputs.get("Reflectance")
+        roughness = self.inputs.get("Roughness")
+        uroughness = self.inputs.get("URoughness")
+        vroughness = self.inputs.get("VRoughness")
+        disp = self.inputs.get("Displacement")
         
         name = self.pbrtv4NodeID
         
@@ -1150,7 +1150,7 @@ class pbrtv4NodeTexture2d(PBRTV4TreeNode):
     #Kd : bpy.props.FloatVectorProperty(name="Kd", description="Kd",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "Pbrt Matte")
+        self.outputs.new('NodeSocketColor', "Texture")
         Mapping_node = self.inputs.new('NodeSocketVector', "Mapping")
         Mapping_node.hide_value = True
 
@@ -1211,7 +1211,7 @@ class pbrtv4NodeImageTexture2d(PBRTV4TreeNode):
     
     image: bpy.props.PointerProperty(name="Image", type=bpy.types.Image, update=update_image)
     TextureType: bpy.props.EnumProperty(name="TextureType",
-                                          description="Texture type",
+                                          description="Type",
                                           items=[('spectrum', "spectrum", "spectrum texture"),
                                                  ('float', "float", "float texture")],
                                           default='spectrum', update=update_type)
@@ -1226,7 +1226,7 @@ class pbrtv4NodeImageTexture2d(PBRTV4TreeNode):
     
     Invert: bpy.props.BoolProperty(name="", default=False, description="Invert")
     EncodingType: bpy.props.EnumProperty(name="EncodingType",
-                                          description="Texture encoding",
+                                          description="Encoding",
                                           items=[('sRGB', "sRGB", "sRGB texture"),
                                                  ('linear', "linear", "linear texture"),
                                                  ('gamma', "gamma", "gamma")
@@ -1242,7 +1242,7 @@ class pbrtv4NodeImageTexture2d(PBRTV4TreeNode):
                                           default='repeat')
                                           
     FilterType: bpy.props.EnumProperty(name="FilterType",
-                                          description="Texture filter type",
+                                          description="Filter",
                                           items=[('ewa', "ewa", "ewa filter"),
                                                  ('trilinear', "trilinear", "trilinear filter"),
                                                  ('bilinear', "bilinear", "bilinear filter"),
@@ -1251,7 +1251,7 @@ class pbrtv4NodeImageTexture2d(PBRTV4TreeNode):
                                           default='bilinear', update=update_type)
 
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "Pbrt Matte")
+        self.outputs.new('NodeSocketColor', "Texture")
         Mapping_node = self.inputs.new('NodeSocketVector', "Mapping")
         Mapping_node.hide_value = True
 
@@ -1262,14 +1262,14 @@ class pbrtv4NodeImageTexture2d(PBRTV4TreeNode):
             layout.template_ID_preview(self, "image", open="image.open")
         else:
             layout.template_ID(self, "image", open="image.open")
-        layout.prop(self, "TextureType",text = 'Texture type')
+        layout.prop(self, "TextureType",text = 'Type')
         layout.prop(self, "ScaleValue",text = 'Scale')
         layout.prop(self, "Invert",text = 'Invert')
         layout.prop(self, "WrapType", text = 'Wrap')
-        layout.prop(self, "EncodingType", text = 'Encoding type')
+        layout.prop(self, "EncodingType", text = 'Encoding')
         if self.EncodingType=="gamma":
-            layout.prop(self, "GammaValue", text = 'gamma')
-        layout.prop(self, "FilterType", text = 'Filter type')
+            layout.prop(self, "GammaValue", text = 'Gamma')
+        layout.prop(self, "FilterType", text = 'Filter')
         layout.prop(self, "isNormal", text = 'Is Normal')
         #layout.prop(self, "Convert", text = 'convert to sRGB')
         
@@ -1351,13 +1351,13 @@ class pbrtv4NodeCheckerboard(PBRTV4TreeNode):
             self.inputs[0].type = "VALUE"
             self.inputs[1].type = "VALUE"
     TextureType: bpy.props.EnumProperty(name="TextureType",
-                                          description="Texture type",
+                                          description="Type",
                                           items=[('spectrum', "spectrum", "spectrum texture"),
                                                  ('float', "float", "float texture")],
                                           default='spectrum', update=update_type)
                                           
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "Pbrt Matte")
+        self.outputs.new('NodeSocketColor', "Texture")
         
         Tex1_node = self.inputs.new('NodeSocketColor', "Tex1 Texture")
         Tex1_node.default_value = [0.8, 0.8, 0.8, 1.0]
@@ -1369,7 +1369,7 @@ class pbrtv4NodeCheckerboard(PBRTV4TreeNode):
         Mapping_node.hide_value = True
 
     def draw_buttons(self, context, layout):
-        layout.prop(self, "TextureType",text = 'Texture type')
+        layout.prop(self, "TextureType",text = 'Type')
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
         
     def draw_label(self):
@@ -1442,7 +1442,7 @@ class pbrtv4NodeScale(PBRTV4TreeNode):
             self.inputs[0].type = "VALUE"
     
     TextureType: bpy.props.EnumProperty(name="TextureType",
-                                          description="Texture type",
+                                          description="Type",
                                           items=[('spectrum', "spectrum", "spectrum texture"),
                                                  ('float', "float", "float texture")],
                                           default='spectrum', update=update_type)
@@ -1450,13 +1450,13 @@ class pbrtv4NodeScale(PBRTV4TreeNode):
     #Kd : bpy.props.FloatVectorProperty(name="Kd", description="Kd",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "Pbrt Matte")
+        self.outputs.new('NodeSocketColor', "Value")
         Texture_node = self.inputs.new('NodeSocketColor', "Texture")
         Texture_node.hide_value = True
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "TextureType",text = 'Texture type')
+        layout.prop(self, "TextureType",text = 'Type')
         layout.prop(self, "ScaleValue",text = 'Scale')
         
     def draw_label(self):
@@ -1497,7 +1497,7 @@ class pbrtv4NodeConstant(PBRTV4TreeNode):
             self.outputs[0].type = "VALUE"
     
     ConstantType: bpy.props.EnumProperty(name="ConstantType",
-                                          description="Texture type",
+                                          description="Type",
                                           items=[('color', "color", "color"),
                                                  ("blackbody", "blackbody", "Blackbody"),
                                                  ('value', "value", "value")],
@@ -1517,15 +1517,15 @@ class pbrtv4NodeConstant(PBRTV4TreeNode):
                                           default='raw')
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "Pbrt Matte")
+        self.outputs.new('NodeSocketColor', "Value")
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
         layout.prop(self, "ConstantType",text = 'Type')
         if self.ConstantType == 'color':
             layout.prop(self, "Color",text = 'Color')
-            layout.prop(self, "ConvertType",text = 'convert')
-            layout.prop(self, "GammaValue", text = 'gamma')
+            layout.prop(self, "ConvertType",text = 'Convert Colorspace')
+            layout.prop(self, "GammaValue", text = 'Gamma')
         elif self.ConstantType == 'blackbody':
             layout.prop(self, "Temperature",text = 'Blackbody temperature')
         else:
@@ -1578,11 +1578,11 @@ class pbrtv4NodeMapping2d(PBRTV4TreeNode):
     #Kd : bpy.props.FloatVectorProperty(name="Kd", description="Kd",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
     def init(self, context):
-        self.outputs.new('NodeSocketVector', "Pbrt Matte")
+        self.outputs.new('NodeSocketVector', "Value")
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "MappingType",text = 'mapping')
+        layout.prop(self, "MappingType",text = 'Type')
         #layout.separator()
         layout.prop(self, "UValue",text = 'U')
         layout.prop(self, "VValue",text = 'V')
@@ -1638,7 +1638,7 @@ class pbrtv4NodeMix(PBRTV4TreeNode):
     #Kd : bpy.props.FloatVectorProperty(name="Kd", description="Kd",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "mix")
+        self.outputs.new('NodeSocketColor', "Value")
         Amount_node = self.inputs.new('NodeSocketFloat', "Amount")
         Amount_node.default_value = 0.5
         Texture1_node = self.inputs.new('NodeSocketColor', "Texture1")
@@ -1646,7 +1646,7 @@ class pbrtv4NodeMix(PBRTV4TreeNode):
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "TextureType",text = 'Texture type')
+        layout.prop(self, "TextureType",text = 'Type')
         #layout.prop(self, "ScaleValue",text = 'Scale')
         
     def draw_label(self):
@@ -1728,7 +1728,7 @@ class pbrtv4NodeMarble(PBRTV4TreeNode):
     Variation:bpy.props.FloatProperty(default=0.2)
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "marble")
+        self.outputs.new('NodeSocketColor', "Texture")
         
     def draw_buttons(self, context, layout):
         #layout.prop(self, "TextureType",text = 'Texture type')
@@ -1778,7 +1778,7 @@ class pbrtv4NodeDMix(PBRTV4TreeNode):
     UseCamera: bpy.props.BoolProperty(default=False)
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "mix")
+        self.outputs.new('NodeSocketColor', "Value")
         Amount_node = self.inputs.new('NodeSocketVector', "Direction")
         Amount_node.default_value = [0,1,0]
         Texture1_node = self.inputs.new('NodeSocketColor', "Texture1")
@@ -1786,8 +1786,8 @@ class pbrtv4NodeDMix(PBRTV4TreeNode):
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "TextureType",text = 'Texture type')
-        layout.prop(self, "UseCamera",text = 'use camera vector')
+        layout.prop(self, "TextureType",text = 'Type')
+        layout.prop(self, "UseCamera",text = 'Use camera vector')
         
     def draw_label(self):
         return self.bl_label
@@ -1861,14 +1861,14 @@ class pbrtv4NodeHSV(PBRTV4TreeNode):
     #Kd : bpy.props.FloatVectorProperty(name="Kd", description="Kd",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
     def init(self, context):
-        self.outputs.new('NodeSocketColor', "hsv")
+        self.outputs.new('NodeSocketColor', "Value")
         #Amount_node = self.inputs.new('NodeSocketFloat', "Amount")
         Texture1_node = self.inputs.new('NodeSocketColor', "Texture1")
         #Texture2_node = self.inputs.new('NodeSocketColor', "Texture2")
 
     def draw_buttons(self, context, layout):
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
-        layout.prop(self, "TextureType",text = 'Texture type')
+        layout.prop(self, "TextureType",text = 'Type')
         layout.prop(self, "Hue",text = 'Hue')
         layout.prop(self, "Saturation",text = 'Saturation')
         layout.prop(self, "Value",text = 'Value')
@@ -2012,7 +2012,7 @@ class pbrtv4HomogeneousVolume(PBRTV4TreeNode):
     def draw_buttons(self, context, layout):
         layout.prop(self, "MediumPreset",text = 'Medium Preset')
         layout.prop(self, "Scale",text = 'Scale')
-        layout.prop(self, "G",text = 'g')
+        layout.prop(self, "G",text = 'G')
         #layout.label(text="ID: {}".format(self.Pbrtv4TreeNodeId))
         #layout.prop(self, "Reflectance",text = 'Color')
         
@@ -2195,7 +2195,7 @@ class pbrtv4AreaEmitter(PBRTV4TreeNode):
         Color_node.hide = True
         
     def draw_buttons(self, context, layout):
-        layout.prop(self, "Twosided",text = 'two sided')
+        layout.prop(self, "Twosided",text = 'Two sided')
         layout.prop(self, "Emission_Preset",text = 'Type')
         layout.prop(self, "Power",text = 'Power')
         if self.Emission_Preset == "blackbody":
@@ -2271,11 +2271,11 @@ class pbrtv4Output(PBRTV4TreeNode):
         self.use_custom_color = True
         self.is_active_output = True
         #0
-        BSDF_node = self.inputs.new('NodeSocketShader', "Bsdf")
+        BSDF_node = self.inputs.new('NodeSocketShader', "BSDF")
         #1
-        Inside_Medium_node = self.inputs.new('NodeSocketShader', "Inside medium")
+        Inside_Medium_node = self.inputs.new('NodeSocketShader', "Inside Medium")
         #2
-        Outside_Medium_node = self.inputs.new('NodeSocketShader', "Outside medium")
+        Outside_Medium_node = self.inputs.new('NodeSocketShader', "Outside Medium")
         #3
         Emission_node = self.inputs.new('NodeSocketShader', "Emission")
         #4
