@@ -41,6 +41,14 @@ Example minimal setup using the diffuse shader:
 
 ![Example Minimal Nodes](images/examplematerial.png)
 
+##### Special Case: Participating Media
+
+If you want to set up a participating medium inside a mesh without adding a BSDF to its surface, simply bind to only the Inside Medium (and possibly Outside Medium) node(s).
+
+This is equivalent to setting Material "interface" in PBRT.
+
+![Example Minimal Medium](images/examplemedium.png)
+
 #### Limitations
 
 Currently materials do not appear correctly in the `Rendered` and `Material Preview` view modes. As a result I recommend the use of `Solid` or `Wireframe` when composing scenes.
