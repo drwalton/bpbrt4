@@ -37,6 +37,14 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
             #col.alignment  = 'CENTER'
             col.prop(asr_scene_props, "pbrt_bvh_maxnodeprims", text="maxnodeprims")
             col.prop(asr_scene_props, "pbrt_bvh_splitmethod", text="splitmethod")
+        elif asr_scene_props.pbrt_accelerator == 'kdtree':
+            col = layout.column(align=True)
+            #col.alignment  = 'CENTER'
+            col.prop(asr_scene_props, "pbrt_kdtree_intersectcost", text="intersectcost")
+            col.prop(asr_scene_props, "pbrt_kdtree_traversalcost", text="traversalcost")
+            col.prop(asr_scene_props, "pbrt_kdtree_emptybonus", text="emptybonus")
+            col.prop(asr_scene_props, "pbrt_kdtree_maxprims", text="maxprims")
+            col.prop(asr_scene_props, "pbrt_kdtree_maxdepth", text="maxdepth")
             
         if asr_scene_props.pbrt_integrator == 'PATH':
             col = layout.column(align=True)

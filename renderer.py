@@ -317,6 +317,11 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         props['pbrt_accelerator'] = bpy.context.scene.pbrtv4.pbrt_accelerator
         props['pbrt_bvh_maxnodeprims'] = bpy.context.scene.pbrtv4.pbrt_bvh_maxnodeprims
         props['pbrt_bvh_splitmethod'] = bpy.context.scene.pbrtv4.pbrt_bvh_splitmethod
+        props['pbrt_kdtree_intersectcost'] = bpy.context.scene.pbrtv4.pbrt_kdtree_intersectcost
+        props['pbrt_kdtree_traversalcost'] = bpy.context.scene.pbrtv4.pbrt_kdtree_traversalcost
+        props['pbrt_kdtree_emptybonus'] = bpy.context.scene.pbrtv4.pbrt_kdtree_emptybonus
+        props['pbrt_kdtree_maxprims'] = bpy.context.scene.pbrtv4.pbrt_kdtree_maxprims
+        props['pbrt_kdtree_maxdepth'] = bpy.context.scene.pbrtv4.pbrt_kdtree_maxdepth
         
         #pixel filter
         props['pbrt_pfilter_type'] = bpy.context.scene.pbrtv4.pbrt_pfilter_type
@@ -624,6 +629,12 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
             if props['pbrt_accelerator'] == "bvh":
                 export_result +='    "integer maxnodeprims" [ {} ]\n'.format(props['pbrt_bvh_maxnodeprims'])
                 export_result +='    "string splitmethod" "{}"\n'.format(props['pbrt_bvh_splitmethod'])
+            if props['pbrt_accelerator'] == "kdtree":
+                export_result +='    "integer intersectcost" [ {} ]\n'.format(props['pbrt_kdtree_intersectcost'])
+                export_result +='    "integer traversalcost" [ {} ]\n'.format(props['pbrt_kdtree_traversalcost'])
+                export_result +='    "float emptybonus" [ {} ]\n'.format(props['pbrt_kdtree_emptybonus'])
+                export_result +='    "integer maxprims" [ {} ]\n'.format(props['pbrt_kdtree_maxprims'])
+                export_result +='    "integer maxdepth" [ {} ]\n'.format(props['pbrt_kdtree_maxdepth'])
                 
         return export_result
         

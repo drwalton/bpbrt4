@@ -103,13 +103,11 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
     pbrt_accelerator: bpy.props.EnumProperty(name="pbrt_accelerator",
                                           description="pbrt Accelerator",
                                           items=[('bvh', "bvh", "bvh accelerator"),
-                                                 ('kdtree', "kdtree", "kdtree accelerator"),
-                                                 #('uniform', "uniform", "uniform accelerator"),
-                                                 #('power', "power", "power accelerator"),
-                                                 #('exhaustive', "exhaustive", "exhaustive accelerator"),
-                                                 ('none', "none", "no accelerator")#actually bvh by default
+                                                 ('kdtree', "kdtree", "kdtree accelerator")
                                                  ],
-                                          default='none')
+                                          default='bvh')
+
+    # BVH specific accelerator settings
     pbrt_bvh_maxnodeprims: bpy.props.IntProperty(name="pbrt_bvh_maxnodeprims",
                                           description="maxnodeprims",
                                           default=4)
@@ -123,6 +121,28 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
             ("middle", "middle", "middle")],
             default = "sah"
     )
+
+    # KDTree specific accelerator settings
+    pbrt_kdtree_intersectcost: bpy.props.IntProperty(name="pbrt_kdtree_intersectcost",
+                                          description="intersectcost",
+                                          default=5,
+                                          min=0)
+    pbrt_kdtree_traversalcost: bpy.props.IntProperty(name="pbrt_kdtree_traversalcost",
+                                          description="traversalcost",
+                                          default=1,
+                                          min=0)
+    pbrt_kdtree_emptybonus: bpy.props.FloatProperty(name="pbrt_kdtree_emptybonus",
+                                          description="emptybonus",
+                                          default=0.5,
+                                          min=0)
+    pbrt_kdtree_maxprims: bpy.props.IntProperty(name="pbrt_kdtree_maxprims",
+                                          description="maxprims",
+                                          default=1,
+                                          min=0)
+    pbrt_kdtree_maxdepth: bpy.props.IntProperty(name="pbrt_kdtree_maxdepth",
+                                          description="maxdepth",
+                                          default=-1,
+                                          min=-1)
     
     pbrt_pfilter_xradius: bpy.props.FloatProperty(name="pbrt_pfilter_xradius",
                                                description="pbrt pixel filter xradius",
