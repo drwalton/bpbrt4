@@ -140,6 +140,18 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
         default=24,
         min=1
     )
+    pbrt_x_samples: bpy.props.IntProperty(
+        name="pbrtIntegratorPathXSamples",
+        description="Number of samples spp in x (stratified sampling only)",
+        default=4,
+        min=1
+    )
+    pbrt_y_samples: bpy.props.IntProperty(
+        name="pbrtIntegratorPathYSamples",
+        description="Number of samples spp in y (stratified sampling only)",
+        default=4,
+        min=1
+    )
     pbrt_max_depth: bpy.props.IntProperty(
         name="pbrtIntegratorMaxdepth",
         default=16,

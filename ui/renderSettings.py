@@ -41,19 +41,31 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
         if asr_scene_props.pbrt_integrator == 'PATH':
             col = layout.column(align=True)
             col.prop(asr_scene_props, "pbrt_sampler", text="Sampler")
-            col.prop(asr_scene_props, "pbrt_samples", text="Samples")
+            if asr_scene_props.pbrt_sampler == "stratified":
+                col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
+                col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+            else:
+                col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
             #col.prop(asr_scene_props, "textures_index", text="Cryptomatte Object")
             #col.prop(asr_scene_props, "pixel_filter_size", text="Cryptomatte Object")
         elif asr_scene_props.pbrt_integrator == 'VOLPATH':
             col = layout.column(align=True)
             col.prop(asr_scene_props, "pbrt_sampler", text="Sampler")
-            col.prop(asr_scene_props, "pbrt_samples", text="Samples")
+            if asr_scene_props.pbrt_sampler == "stratified":
+                col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
+                col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+            else:
+                col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
         elif asr_scene_props.pbrt_integrator == 'BDPT':
             col = layout.column(align=True)
             col.prop(asr_scene_props, "pbrt_sampler", text="Sampler")
-            col.prop(asr_scene_props, "pbrt_samples", text="Samples")
+            if asr_scene_props.pbrt_sampler == "stratified":
+                col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
+                col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+            else:
+                col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
             col.prop(asr_scene_props, "pbrtIntegratorBdptLSS", text="Light Sample Strategy")
             col.prop(asr_scene_props, "pbrtIntegratorBdptVS", text="Visualize Strategies")
@@ -61,7 +73,11 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
         else:
             col = layout.column(align=True)
             col.prop(asr_scene_props, "pbrt_sampler", text="Sampler")
-            col.prop(asr_scene_props, "pbrt_samples", text="Samples")
+            if asr_scene_props.pbrt_sampler == "stratified":
+                col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
+                col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+            else:
+                col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
             
         layout.prop(asr_scene_props, "pbrt_pfilter_type", text="Pixel filter type")

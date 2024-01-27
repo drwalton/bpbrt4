@@ -308,6 +308,8 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
     def getProps(self, props):
         props['pbrt_scene_only'] = bpy.context.scene.pbrtv4.pbrt_scene_only
         props['pbrt_samples'] = bpy.context.scene.pbrtv4.pbrt_samples
+        props['pbrt_x_samples'] = bpy.context.scene.pbrtv4.pbrt_x_samples
+        props['pbrt_y_samples'] = bpy.context.scene.pbrtv4.pbrt_y_samples
         props['pbrt_max_depth'] = bpy.context.scene.pbrtv4.pbrt_max_depth
         props['pbrt_sampler'] = bpy.context.scene.pbrtv4.pbrt_sampler
         props['pbrt_integrator'] = bpy.context.scene.pbrtv4.pbrt_integrator
@@ -600,6 +602,9 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         export_result +='Sampler "{}"\n'.format(props['pbrt_sampler'])
         if props['pbrt_sampler'] != "stratified":
             export_result +='    "integer pixelsamples" [ {} ]\n'.format(props['pbrt_samples'])
+        else:
+            export_result +='    "integer xsamples" [ {} ]\n'.format(props['pbrt_x_samples'])
+            export_result +='    "integer ysamples" [ {} ]\n'.format(props['pbrt_y_samples'])
         return export_result
         
     def export_Accelerator(self, props):
