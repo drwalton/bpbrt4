@@ -310,6 +310,7 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         props['pbrt_samples'] = bpy.context.scene.pbrtv4.pbrt_samples
         props['pbrt_x_samples'] = bpy.context.scene.pbrtv4.pbrt_x_samples
         props['pbrt_y_samples'] = bpy.context.scene.pbrtv4.pbrt_y_samples
+        props['pbrt_jitter_samples'] = bpy.context.scene.pbrtv4.pbrt_jitter_samples
         props['pbrt_max_depth'] = bpy.context.scene.pbrtv4.pbrt_max_depth
         props['pbrt_sampler'] = bpy.context.scene.pbrtv4.pbrt_sampler
         props['pbrt_integrator'] = bpy.context.scene.pbrtv4.pbrt_integrator
@@ -605,6 +606,7 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
         else:
             export_result +='    "integer xsamples" [ {} ]\n'.format(props['pbrt_x_samples'])
             export_result +='    "integer ysamples" [ {} ]\n'.format(props['pbrt_y_samples'])
+            export_result +='    "bool jitter" [ {} ]\n'.format("true" if props['pbrt_jitter_samples'] else "false")
         return export_result
         
     def export_Accelerator(self, props):

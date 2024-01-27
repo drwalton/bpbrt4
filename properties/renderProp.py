@@ -152,6 +152,11 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
         default=4,
         min=1
     )
+    pbrt_jitter_samples: bpy.props.BoolProperty(
+        name="pbrtJitterSamples",
+        description="Enable/disable sample jittering (stratified sampling only)",
+        default=True
+    )
     pbrt_max_depth: bpy.props.IntProperty(
         name="pbrtIntegratorMaxdepth",
         default=16,

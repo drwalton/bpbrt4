@@ -44,6 +44,7 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
             if asr_scene_props.pbrt_sampler == "stratified":
                 col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
                 col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+                col.prop(asr_scene_props, "pbrt_jitter_samples", text="Jitter Samples")
             else:
                 col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
@@ -55,6 +56,7 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
             if asr_scene_props.pbrt_sampler == "stratified":
                 col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
                 col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+                col.prop(asr_scene_props, "pbrt_jitter_samples", text="Jitter Samples")
             else:
                 col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
@@ -64,6 +66,7 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
             if asr_scene_props.pbrt_sampler == "stratified":
                 col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
                 col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+                col.prop(asr_scene_props, "pbrt_jitter_samples", text="Jitter Samples")
             else:
                 col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
@@ -76,6 +79,7 @@ class PBRTV4_RENDER_PT_sampling(RenderButtonsPanel, Panel):
             if asr_scene_props.pbrt_sampler == "stratified":
                 col.prop(asr_scene_props, "pbrt_x_samples", text="X Samples")
                 col.prop(asr_scene_props, "pbrt_y_samples", text="Y Samples")
+                col.prop(asr_scene_props, "pbrt_jitter_samples", text="Jitter Samples")
             else:
                 col.prop(asr_scene_props, "pbrt_samples", text="Samples")
             col.prop(asr_scene_props, "pbrt_max_depth", text="Max Depth")
