@@ -138,6 +138,11 @@ class PBRTV4_RENDER_PT_Film(RenderButtonsPanel, Panel):
         layout.prop(asr_scene_props, "pbrt_film_sensor", text="Sensor")
         layout.prop(asr_scene_props, "pbrt_film_iso", text="ISO")
         layout.prop(asr_scene_props, "pbrt_film_whitebalance", text="Whitebalance")
+        if asr_scene_props.pbrt_film_type == "spectral":
+            layout.label(text="Warning: Render preview not working for spectral. View result in e.g. GIMP.")
+            layout.prop(asr_scene_props, "pbrt_film_nbuckets", text="N Spectral Buckets")
+            layout.prop(asr_scene_props, "pbrt_film_lambdamin", text="Min Wavelength")
+            layout.prop(asr_scene_props, "pbrt_film_lambdamax", text="Max Wavelength")
         layout.separator()
         
 class PBRTV4_MATERIAL_PT_slots(bpy.types.Panel):

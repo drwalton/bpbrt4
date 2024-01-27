@@ -679,6 +679,10 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
             export_result +='    "string sensor" "{}"\n'.format(pbrt_film_sensor)
         pbrt_film_iso = bpy.context.scene.pbrtv4.pbrt_film_iso
         export_result +='    "float iso" {}\n'.format(pbrt_film_iso)
+        if filmtype == "spectral":
+            export_result +='    "integer nbuckets" {}\n'.format(bpy.context.scene.pbrtv4.pbrt_film_nbuckets)
+            export_result +='    "float lambdamin" {}\n'.format(bpy.context.scene.pbrtv4.pbrt_film_lambdamin)
+            export_result +='    "float lambdamax" {}\n'.format(bpy.context.scene.pbrtv4.pbrt_film_lambdamax)
         
         pbrt_film_whitebalance = bpy.context.scene.pbrtv4.pbrt_film_whitebalance
         export_result +='    '+'"float whitebalance" {}\n'.format(pbrt_film_whitebalance)

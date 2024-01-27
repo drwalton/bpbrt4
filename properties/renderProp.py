@@ -288,6 +288,24 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
                                           items=[('Half', "Float Half(16bit)", "Uniform"),
                                                  ('Full', "Float Full(32bit)", "Adaptive")],
                                           default='Half')
+
+    # Options specific to "spectral" film
+    pbrt_film_nbuckets: bpy.props.IntProperty(
+        name="pbrtFilmNBuckets",
+        default=16,
+        min=1,
+        max=1024
+    )
+    pbrt_film_lambdamin: bpy.props.FloatProperty(
+        name="pbrtFilmLambdaMin",
+        default=360.0,
+        min=1.0
+    )
+    pbrt_film_lambdamax: bpy.props.FloatProperty(
+        name="pbrtFilmLambdaMax",
+        default=830.0,
+        min=1.0
+    )
     
     pbrt_scene_only: bpy.props.BoolProperty(
         name="pbrt_scene_only",
