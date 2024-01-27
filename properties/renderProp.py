@@ -77,15 +77,17 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
                                           default='rgb')
     pbrt_integrator: bpy.props.EnumProperty(name="pbrt_integrator",
                                           description="integrator",
-                                          items=[("PATH", "path", "Path Integrator"),
-                                                 ("SIMPLEVOLPATH", "simplevolpath", "Simple Volumetric Path Integrator"),
-                                                 ("VOLPATH", "volpath", "Volumetric Path Integrator"),
+                                          items=[("AO", "ambientocclusion", "Ao Integrator"),
+                                                 ("BDPT", "bdpt", "BDPT Integrator"),
                                                  ("LIGHTPATH", "lightpath", "Light Path Integrator"),
-                                                 ("AO", "AmbientOcclusion", "Ao Integrator"),
-                                                 ("RAY", "ray", "Ray Integrator"),
                                                  ("MLT", "mlt", "Mlt Integrator"),
-                                                 ("BDPT", "bdpt", "BDPT Integrator")],
-                                          default='PATH')
+                                                 ("PATH", "path", "Path Integrator"),
+                                                 ("RANDOMWALK", "randomwalk", "Random Walk Integrator"),
+                                                 ("SIMPLEPATH", "simplepath", "Simple Path Integrator"),
+                                                 ("SIMPLEVOLPATH", "simplevolpath", "Simple Volumetric Path Integrator"),
+                                                 ("SPPM", "sppm", "Stochastic Progressive Photon Mapping"),
+                                                 ("VOLPATH", "volpath", "Volumetric Path Integrator")],
+                                          default='VOLPATH')
     
     #pixel filter 
     pbrt_pfilter_type: bpy.props.EnumProperty(name="pbrt_pfilter_type",

@@ -575,26 +575,30 @@ class PBRTRenderEngine(bpy.types.RenderEngine):
     #Integrator "volpath" "integer maxdepth" 50
     def export_Integrator(self, props):
         export_result =""
-        if props['pbrt_integrator'] == "PATH":
-            export_result +="Integrator {}\n".format('"path"')
-            export_result +='    "integer maxdepth" [ {} ]\n'.format(props['pbrt_max_depth'])
-        elif props['pbrt_integrator'] == "VOLPATH":
-            export_result +="Integrator {}\n".format('"volpath"')
+        if props['pbrt_integrator'] == "AO":
+            export_result +="Integrator {}\n".format('"ambientocclusion"')
+            export_result +='    "float maxdistance" [ {} ]\n'.format(10)
+        elif props['pbrt_integrator'] == "BDPT":
+            export_result +="Integrator {}\n".format('"bdpt"')
             export_result +='    "integer maxdepth" [ {} ]\n'.format(props['pbrt_max_depth'])
         elif props['pbrt_integrator'] == "LIGHTPATH":
             export_result +="Integrator {}\n".format('"lightpath"')
+        elif props['pbrt_integrator'] == "MLT":
+            export_result +="Integrator {}\n".format('"mlt"')
+        elif props['pbrt_integrator'] == "PATH":
+            export_result +="Integrator {}\n".format('"path"')
+            export_result +='    "integer maxdepth" [ {} ]\n'.format(props['pbrt_max_depth'])
+        elif props['pbrt_integrator'] == "RANDOMWALK":
+            export_result +="Integrator {}\n".format('"randomwalk"')
+        elif props['pbrt_integrator'] == "SIMPLEPATH":
+            export_result +="Integrator {}\n".format('"simplepath"')
         elif props['pbrt_integrator'] == "SIMPLEVOLPATH":
             export_result +="Integrator {}\n".format('"simplevolpath"')
             export_result +='    "integer maxdepth" [ {} ]\n'.format(props['pbrt_max_depth'])
-        elif props['pbrt_integrator'] == "AO":
-            export_result +="Integrator {}\n".format('"ambientocclusion"')
-            export_result +='    "float maxdistance" [ {} ]\n'.format(10)
-        elif props['pbrt_integrator'] == "RAY":
-            export_result +="Integrator {}\n".format('"ray"')
-        elif props['pbrt_integrator'] == "MLT":
-            export_result +="Integrator {}\n".format('"mlt"')
-        else :
-            export_result +="Integrator {}\n".format('"bdpt"')
+        elif props['pbrt_integrator'] == "SPPM":
+            export_result +="Integrator {}\n".format('"sppm"')
+        elif props['pbrt_integrator'] == "VOLPATH":
+            export_result +="Integrator {}\n".format('"volpath"')
             export_result +='    "integer maxdepth" [ {} ]\n'.format(props['pbrt_max_depth'])
         
         return export_result
