@@ -35,7 +35,9 @@ Ensure you use the `PBRTV4 Output` node, and not a standard Blender shader (like
 
 Inputs such as images should also make use of the PBRT image texture node `PBRTV4 Textures->Image`.
 
-Textures used as normal maps must have the is Normal property set.
+For Image textures, set the mode to either spectrum (represents a colour value) or float (e.g. a displacement map) as appropriate.
+
+Textures used as normal maps must have the is Normal property set. 
 
 Example minimal setup using the diffuse shader:
 

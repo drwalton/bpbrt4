@@ -2063,8 +2063,8 @@ class pbrtv4CloudVolume(PBRTV4TreeNode):
     Wispiness : bpy.props.FloatProperty(default=1.00)
     Frequency : bpy.props.FloatProperty(default=5.00)
     
-    P0 : bpy.props.FloatVectorProperty(name="p0", description="color", default=(0.0, 0.0, 0.0), min=0, max=1, size=3)
-    P1 : bpy.props.FloatVectorProperty(name="p1", description="color", default=(1.0, 1.0, 1.0), min=0, max=1, size=3)
+    P0 : bpy.props.FloatVectorProperty(name="p0", description="color", default=(-1.0, -1.0, -1.0), min=-10, max=10, size=3)
+    P1 : bpy.props.FloatVectorProperty(name="p1", description="color", default=(1.0, 1.0, 1.0), min=-10, max=10, size=3)
     #Reflectance : bpy.props.FloatVectorProperty(name="reflectance", description="color",default=(0.8, 0.8, 0.8, 1.0), min=0, max=1, subtype='COLOR', size=4,update=updateViewportColor)
     
     def init(self, context):
