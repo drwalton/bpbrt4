@@ -795,7 +795,7 @@ class pbrtv4CoateddiffuseMaterial(PBRTV4TreeNode):
         
     #return str to add blocks from connected nodes to current and data to write to file
     def to_string(self, list, data):
-        color = self.inputs.get("Color")
+        color = self.inputs.get("Reflectance")
         roughness = self.inputs.get("Roughness")
         uroughness = self.inputs.get("URoughness")
         vroughness = self.inputs.get("VRoughness")
