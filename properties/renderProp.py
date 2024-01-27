@@ -240,6 +240,7 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
     pbrt_film_sensor: bpy.props.EnumProperty(name="pbrt_film_sensor",
                                           description="Camera sensor",
                                           items=[("None", "None", "None"),
+                                                 ("cie1931", "cie1931", "cie1931"),
                                                  ("canon_eos_100d", "canon_eos_100d", "canon_eos_100d"),
                                                  ("canon_eos_1dx_mkii", "canon_eos_1dx_mkii", "canon_eos_1dx_mkii"),
                                                  ("canon_eos_200d_mkii", "canon_eos_200d_mkii", "canon_eos_200d_mkii"),
@@ -258,7 +259,7 @@ class PBRTV4RenderSettings(bpy.types.PropertyGroup):
                                                  ("sony_ilce_7rm3", "sony_ilce_7rm3", "sony_ilce_7rm3"),
                                                  
                                                  ("sony_ilce_9", "sony_ilce_9", "sony_ilce_9")],
-                                          default='canon_eos_100d')
+                                          default='cie1931')
     pbrt_ColorSpace: bpy.props.EnumProperty(
         name="pbrt_ColorSpace",
         description="Color Space",
