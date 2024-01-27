@@ -1059,6 +1059,8 @@ class pbrtv4ConductorMaterial(PBRTV4TreeNode):
         layout.prop(self, "kPreset",text = 'kPreset')
         layout.prop(self, "RemapRoughness",text = 'RemapRoughness')
         layout.prop(self, "Anisotropy",text = 'Anisotropy')
+        if self.EtaPreset != "color":
+            layout.label(text="Reflectance NOT USED")
         #layout.prop(self, "Eta",text = 'IOR')
         
     def draw_label(self):
