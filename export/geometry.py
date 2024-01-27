@@ -54,7 +54,10 @@ class ObjectInfo(object):
             if not self.materials[i].insideMediumName == "" or not self.materials[i].outsideMediumName == "":
                 #result += "AttributeBegin\n"
                 result += '    '+'MediumInterface "{}" "{}"\n'.format(self.materials[i].insideMediumName, self.materials[i].outsideMediumName)
-            result += '    '+'NamedMaterial "{}"\n'.format(self.materials[i].name)
+            if self.materials[i].name == "interface":
+                result += '    '+'Material "{}"\n'.format(self.materials[i].name)
+            else:
+                result += '    '+'NamedMaterial "{}"\n'.format(self.materials[i].name)
             filename = folder+"{}.ply".format(self.parts[i])
             
             result += '    '+'Shape "plymesh"\n'
@@ -249,7 +252,7 @@ class GeometryExporter:
         return shapeInfo
             
     def export_mat(self, object_instance, matid, abs_path):
-        shapeInfo = {"medium":None, "emission":None, "alpha":None}
+        shapeInfo = {"medium":None, "emission":None, "alpha":None, "isInterface":False}
         ExportedNodes = []
         mat = object_instance.object.material_slots[matid].material
         #print ('Exporting material: ', mat.name)
@@ -287,11 +290,19 @@ class GeometryExporter:
                 else:
                     #not bpbrt4 material
                     #add default instead
-                    print('! WARN !', "Material: {} not valid bpbrt4 bsdf".format(mat.name))
-                    self.addDefaultMat(mat.name, self.materialData, [1,0,0])
+                    if OutputNode.inputs.get("Inside Medium").is_linked:
+                        # We've got an inside medium, so set the BSDF to "interface" (i.e. no BSDF)
+                        shapeInfo["isInterface"] = True
+                    else:
+                        print('! WARN !', "Material: {} not valid bpbrt4 bsdf".format(mat.name))
+                        self.addDefaultMat(mat.name, self.materialData, [1,0,0])
             else:
-                print('! WARN !', "Material: {} has no bsdf linked".format(mat.name))
-                self.addDefaultMat(mat.name, self.materialData, [1,0,0])
+                if OutputNode.inputs.get("Inside Medium").is_linked:
+                    # We've got an inside medium, so set the BSDF to "interface" (i.e. no BSDF)
+                    shapeInfo["isInterface"] = True
+                else:
+                    print('! WARN !', "Material: {} has no bsdf linked".format(mat.name))
+                    self.addDefaultMat(mat.name, self.materialData, [1,0,0])
             
             #export alpha
             alpha = {"texture":"", "value":""}
@@ -455,6 +466,8 @@ class GeometryExporter:
             if self.save_mesh(b_mesh, b_object.matrix_world, b_object.name_full, abs_path, mat_nr, info) and mat_nr >= 0:
                 mat_info = self.export_mat(object_instance, mat_nr, abs_path)
                 #print(mat_info)
+                if mat_info["isInterface"]:
+                    info.materials[-1].name = "interface"
                 if not mat_info["emission"] == None:
                     info.materials[-1] = mat_info["emission"]
                 if not mat_info["medium"] == None:
