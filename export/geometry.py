@@ -203,14 +203,14 @@ class GeometryExporter:
         
         #export medium
         volumes = {"inside":"", "outside":""}
-        inner_volume_input = OutputNode.inputs.get("Inside medium") #shader volume
+        inner_volume_input = OutputNode.inputs.get("Inside Medium") #shader volume
         if not inner_volume_input == None and inner_volume_input.is_linked:
             volume_node_link = inner_volume_input.links[0]
             volume =  volume_node_link.from_node
             volume.Backprop(ExportedNodes, materialData)
             volumes["inside"] = volume.pbrtv4NodeID
             
-        outer_volume_input = OutputNode.inputs.get("Outside medium")
+        outer_volume_input = OutputNode.inputs.get("Outside Medium")
         if not outer_volume_input == None and outer_volume_input.is_linked:
             volume_node_link = outer_volume_input.links[0]
             volume =  volume_node_link.from_node
@@ -312,14 +312,14 @@ class GeometryExporter:
                 
             #export medium
             volumes = {"inside":"", "outside":""}
-            inner_volume_input = OutputNode.inputs.get("Inside medium")
+            inner_volume_input = OutputNode.inputs.get("Inside Medium")
             if inner_volume_input.is_linked:
                 volume_node_link = inner_volume_input.links[0]
                 volume =  volume_node_link.from_node
                 volume.Backprop(ExportedNodes, self.materialData)
                 volumes["inside"] = volume.pbrtv4NodeID
                 
-            outer_volume_input = OutputNode.inputs.get("Outside medium")
+            outer_volume_input = OutputNode.inputs.get("Outside Medium")
             if not outer_volume_input == None and outer_volume_input.is_linked:
                 volume_node_link = outer_volume_input.links[0]
                 volume =  volume_node_link.from_node
