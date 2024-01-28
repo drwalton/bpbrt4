@@ -912,8 +912,6 @@ class pbrtv4DielectricMaterial(PBRTV4TreeNode):
     Eta_Spectrum : bpy.props.FloatVectorProperty(name="Tint", description="tint color",default=(200.0, 1.0, 900.0, 1.0), min=0, max=1000, subtype='COLOR', size=4)
     RemapRoughness: bpy.props.BoolProperty(default=False)
     isThin:bpy.props.BoolProperty(default=False)
-    UseTint: bpy.props.BoolProperty(default=False)
-    Tint : bpy.props.FloatVectorProperty(name="Tint", description="tint color",default=(1.0, 1.0, 1.0, 1.0), min=0, max=1, subtype='COLOR', size=4)
     EtaPreset: bpy.props.EnumProperty(name="EtaPreset",
                                               description="",
                                               items=presets.GlassPreset+[("custom", "Value", "Custom"),
@@ -942,9 +940,6 @@ class pbrtv4DielectricMaterial(PBRTV4TreeNode):
         
         if not self.isThin:
             layout.prop(self, "RemapRoughness",text = 'Remap Roughness')
-            layout.prop(self, "UseTint",text = 'Use Tint')
-            if self.UseTint:
-                layout.prop(self, "Tint",text = 'Tint Color')
         
         
     def draw_label(self):
@@ -983,8 +978,6 @@ class pbrtv4DielectricMaterial(PBRTV4TreeNode):
                 remap='true'
             res+='  "bool remaproughness" {}\n'.format(remap)
             
-            if self.UseTint:
-                res+='  "rgb tint" [{} {} {}]\n'.format(self.Tint[0],self.Tint[1],self.Tint[2])
         #eta
         if self.EtaPreset == 'color':
             res+='  "spectrum eta" [ {} {} {} {} ]\n'.format(self.Eta_Spectrum[0], self.Eta_Spectrum[1], self.Eta_Spectrum[2], self.Eta_Spectrum[3])
