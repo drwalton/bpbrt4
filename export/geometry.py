@@ -63,7 +63,7 @@ class ObjectInfo(object):
             result += '    '+'Shape "plymesh"\n'
             result += '    '+'    '+'"string filename" [ "{}" ]\n'.format(filename)
             
-            if not self.materials[i].alpha == None:
+            if self.materials[i].alpha is not None:
                 alpha = self.materials[i].alpha
                 if not alpha["texture"] == "":
                     result += '    '+'    '+'"texture alpha" "{}"\n'.format(alpha["texture"])
@@ -94,7 +94,7 @@ class ObjectInfo(object):
             result += '    '+'    '+'Shape "plymesh"\n'
             result += '    '+'    '+'    '+'"string filename" [ "{}" ]\n'.format(filename)
             
-            if not self.materials[i].alpha == None:
+            if self.materials[i].alpha is not None:
                 alpha = self.materials[i].alpha
                 if not alpha["texture"] == "":
                     result += '    '+'    '+'    '+'"texture alpha" "{}"\n'.format(alpha["texture"])
@@ -172,7 +172,7 @@ class GeometryExporter:
         #for n in mat.node_tree.nodes:
         #    print(n)
         
-        if OutputNode == None:
+        if OutputNode is None:
             GeometryExporter.addDefaultMat(export_name, materialData, [1,0,0])
             print('! WARN !', "Material: {} has no active Output Node".format(mat.name))
             return shapeInfo
@@ -185,7 +185,7 @@ class GeometryExporter:
                 ID+=1
         
         input = OutputNode.inputs.get("BSDF") #shader input
-        if not input == None and input.is_linked:
+        if input is not None and input.is_linked:
             node_link = input.links[0]
             curNode =  node_link.from_node
             if hasattr(curNode, 'isPbrtv4TreeNode'):
@@ -207,14 +207,14 @@ class GeometryExporter:
         #export medium
         volumes = {"inside":"", "outside":""}
         inner_volume_input = OutputNode.inputs.get("Inside Medium") #shader volume
-        if not inner_volume_input == None and inner_volume_input.is_linked:
+        if inner_volume_input is not None and inner_volume_input.is_linked:
             volume_node_link = inner_volume_input.links[0]
             volume =  volume_node_link.from_node
             volume.Backprop(ExportedNodes, materialData)
             volumes["inside"] = volume.pbrtv4NodeID
             
         outer_volume_input = OutputNode.inputs.get("Outside Medium")
-        if not outer_volume_input == None and outer_volume_input.is_linked:
+        if outer_volume_input is not None and outer_volume_input.is_linked:
             volume_node_link = outer_volume_input.links[0]
             volume =  volume_node_link.from_node
             volume.Backprop(ExportedNodes, materialData)
@@ -225,7 +225,7 @@ class GeometryExporter:
         
         #export emission
         emission_input = OutputNode.inputs.get("Emission") #shader volume
-        if not emission_input == None and emission_input.is_linked:
+        if emission_input is not None and emission_input.is_linked:
             em_node_link = emission_input.links[0]
             em =  em_node_link.from_node
             emInfo = em.getEmissionInfo(mat.name)
@@ -235,7 +235,7 @@ class GeometryExporter:
         #export alpha
         alpha = {"texture":"", "value":""}
         alpha_input = OutputNode.inputs.get("Alpha") #shader displacement
-        if not alpha_input == None:
+        if alpha_input is not None:
             if alpha_input.is_linked:
                 #texture used
                 texture_node_link = alpha_input.links[0]
@@ -265,7 +265,7 @@ class GeometryExporter:
             return shapeInfo
         
         OutputNode = mat.node_tree.nodes.get('PBRT4 Output')
-        if OutputNode == None:
+        if OutputNode is None:
             if not mat.name in self.exported_materials:
                 self.addDefaultMat(mat.name, self.materialData, [1,0,0])
                 self.exported_materials.add(mat.name)
@@ -280,7 +280,7 @@ class GeometryExporter:
                     node.setId(mat.name, ID)
                     ID+=1
             input = OutputNode.inputs.get("BSDF") #shader input
-            if not input == None and input.is_linked:
+            if input is not None and input.is_linked:
                 node_link = input.links[0]
                 curNode =  node_link.from_node
                 if hasattr(curNode, 'isPbrtv4TreeNode'):
@@ -307,7 +307,7 @@ class GeometryExporter:
             #export alpha
             alpha = {"texture":"", "value":""}
             alpha_input = OutputNode.inputs.get("Alpha")
-            if not alpha_input == None:
+            if alpha_input is not None:
                 if alpha_input.is_linked:
                     #texture used
                     texture_node_link = alpha_input.links[0]
@@ -331,7 +331,7 @@ class GeometryExporter:
                 volumes["inside"] = volume.pbrtv4NodeID
                 
             outer_volume_input = OutputNode.inputs.get("Outside Medium")
-            if not outer_volume_input == None and outer_volume_input.is_linked:
+            if outer_volume_input is not None and outer_volume_input.is_linked:
                 volume_node_link = outer_volume_input.links[0]
                 volume =  volume_node_link.from_node
                 volume.Backprop(ExportedNodes, self.materialData)
@@ -345,7 +345,7 @@ class GeometryExporter:
             #Apply shape parameters for objects that uses the same nodes
             alpha = {"texture":"", "value":""}
             alpha_input = OutputNode.inputs.get("Alpha")
-            if not alpha_input == None:
+            if alpha_input is not None:
                 if alpha_input.is_linked:
                     #texture used
                     texture_node_link = alpha_input.links[0]
@@ -361,13 +361,13 @@ class GeometryExporter:
             #export medium
             volumes = {"inside":"", "outside":""}
             inner_volume_input = OutputNode.inputs.get("Inside medium")
-            if inner_volume_input.is_linked:
+            if inner_volume_input is not None and inner_volume_input.is_linked:
                 volume_node_link = inner_volume_input.links[0]
                 volume =  volume_node_link.from_node
                 volumes["inside"] = volume.pbrtv4NodeID
                 
             outer_volume_input = OutputNode.inputs.get("Outside medium")
-            if not outer_volume_input == None and outer_volume_input.is_linked:
+            if outer_volume_input is not None and outer_volume_input.is_linked:
                 volume_node_link = outer_volume_input.links[0]
                 volume =  volume_node_link.from_node
                 volumes["outside"] = volume.pbrtv4NodeID
@@ -379,7 +379,7 @@ class GeometryExporter:
             
         #export emission
         emission_input = OutputNode.inputs.get("Emission") #shader volume
-        if not emission_input == None and emission_input.is_linked:
+        if emission_input is not None and emission_input.is_linked:
             em_node_link = emission_input.links[0]
             em =  em_node_link.from_node
             emInfo = em.getEmissionInfo(mat.name)
@@ -387,7 +387,7 @@ class GeometryExporter:
              
         #export displacement
         disp_input = OutputNode.inputs.get("Displacement") #shape displacement
-        if not disp_input == None and disp_input.is_linked:
+        if disp_input is not None and disp_input.is_linked:
             disp_node_link = disp_input.links[0]
             disp =  disp_node_link.from_node
             dInfo = disp.getDispInfo()
@@ -400,7 +400,7 @@ class GeometryExporter:
         return shapeInfo
                         
     def save_mesh(self, b_mesh, matrix_world, b_name, file_path, mat_nr, info):
-        if b_mesh == None:
+        if b_mesh is None:
             print('! WARN !', "Object: {} has no mesh. Skipping.".format(b_name))
             return False
         
@@ -468,12 +468,12 @@ class GeometryExporter:
                 #print(mat_info)
                 if mat_info["isInterface"]:
                     info.materials[-1].name = "interface"
-                if not mat_info["emission"] == None:
+                if mat_info["emission"] is not None:
                     info.materials[-1] = mat_info["emission"]
-                if not mat_info["medium"] == None:
+                if mat_info["medium"] is not None:
                     info.materials[-1].insideMediumName = mat_info["medium"]["inside"]
                     info.materials[-1].outsideMediumName = mat_info["medium"]["outside"]
-                if not mat_info["alpha"] == None:
+                if mat_info["alpha"] is not None:
                     info.materials[-1].alpha = mat_info["alpha"]
                 #export_material(export_ctx, b_object.data.materials[mat_nr])
             else:
