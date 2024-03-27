@@ -254,6 +254,9 @@ class GeometryExporter:
     def export_mat(self, object_instance, matid, abs_path):
         shapeInfo = {"medium":None, "emission":None, "alpha":None, "isInterface":False}
         ExportedNodes = []
+        if matid >= len(object_instance.object.material_slots):
+            print("! Warning ! Tried to export material slot {} but object only has {} slots", (matid, len(object_instance.object.material_slots)))
+            return {}
         mat = object_instance.object.material_slots[matid].material
         #print ('Exporting material: ', mat.name)
         
@@ -604,6 +607,9 @@ class GeometryExporter:
     
     def Export_hairs(self, b_object, hairs, settings, matid):
         #export material
+        if matid >= len(b_object.object.material_slots):
+            print("! Warning ! Tried to export material slot {} but object only has {} slots", (matid, len(b_object.object.material_slots)))
+            return ""
         matName = b_object.object.material_slots[matid].material.name
         #export particles
         res = ''
@@ -759,7 +765,7 @@ class GeometryExporter:
                     self.lightsData.append(export_spot_light(evaluated_obj))
                     print("SPOT LIGHT OBJECT", evaluated_obj.data.type)
                 else:
-                    print("LIGHT OBJECT", evaluated_obj.data.type, "DOESN'T SUPPURTED")
+                    print("LIGHT OBJECT OF TYPE", evaluated_obj.data.type, "NOT SUPPORTED")
             elif object_type == 'CAMERA':
                 print ("export object: ", evaluated_obj.name, " skip camera")
             else:
@@ -771,3 +777,4 @@ class GeometryExporter:
             GeometryLst.append(infoLst[name])
         GeometryLst.append(instStr)
         return GeometryLst
+ 
